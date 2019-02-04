@@ -5,19 +5,13 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import com.dummy.myerp.business.contrat.BusinessProxy;
-import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
-
 
 /**
  * <p>Classe mère des Managers</p>
  */
 public abstract class AbstractBusinessManager {
 
-    /** Le Proxy d'accès à la couche Business */
-    private static BusinessProxy businessProxy;
-    /** Le Proxy d'accès à la couche Consumer-DAO */
-    private static DaoProxy daoProxy;
+
     /** Le gestionnaire de Transaction */
     private static TransactionManager transactionManager;
 
@@ -26,40 +20,19 @@ public abstract class AbstractBusinessManager {
 
     /**
      * Méthode de configuration de la classe
-     *
-     * @param pBusinessProxy      -
-     * @param pDaoProxy           -
+
      * @param pTransactionManager -
      */
-    public static void configure(BusinessProxy pBusinessProxy,
-                                 DaoProxy pDaoProxy,
-                                 TransactionManager pTransactionManager) {
-        businessProxy = pBusinessProxy;
-        daoProxy = pDaoProxy;
+    public static void configure(TransactionManager pTransactionManager) {
         transactionManager = pTransactionManager;
     }
 
 
     // ==================== Getters/Setters ====================
 
-    /**
-     * Renvoie le Proxy d'accès à la couche Business
-     *
-     * @return {@link BusinessProxy}
-     */
-    protected BusinessProxy getBusinessProxy() {
-        return businessProxy;
-    }
 
 
-    /**
-     * Renvoie le Proxy d'accès à la couche Consumer-DAO
-     *
-     * @return {@link DaoProxy}
-     */
-    protected DaoProxy getDaoProxy() {
-        return daoProxy;
-    }
+
 
 
     /**

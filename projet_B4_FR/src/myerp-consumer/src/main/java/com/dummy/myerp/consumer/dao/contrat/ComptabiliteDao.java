@@ -5,7 +5,9 @@ import java.util.List;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
+import com.dummy.myerp.technical.exception.TechnicalException;
 
 
 /**
@@ -42,7 +44,7 @@ public interface ComptabiliteDao {
      * @return {@link EcritureComptable}
      * @throws NotFoundException : Si l'écriture comptable n'est pas trouvée
      */
-    EcritureComptable getEcritureComptable(Integer pId) throws NotFoundException;
+    EcritureComptable getEcritureComptable(Integer pId) throws NotFoundException, TechnicalException, FunctionalException;
 
     /**
      * Renvoie l'Écriture Comptable de référence {@code pRef}.
@@ -51,7 +53,7 @@ public interface ComptabiliteDao {
      * @return {@link EcritureComptable}
      * @throws NotFoundException : Si l'écriture comptable n'est pas trouvée
      */
-    EcritureComptable getEcritureComptableByRef(String pReference) throws NotFoundException;
+    EcritureComptable getEcritureComptableByRef(String pReference) throws NotFoundException, TechnicalException, FunctionalException;
 
     /**
      * Charge la liste des lignes d'écriture de l'écriture comptable {@code pEcritureComptable}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                        http://www.springframework.org/schema/context 
+                        https://www.springframework.org/schema/context/spring-context-4.3.xsd
+                        http://www.springframework.org/schema/tx 
+    										http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="org.postgresql.Driver" />
+		<property name="url"
+			value="jdbc:postgresql://127.0.0.1:9032/db_myerp" />
+		<property name="username" value="usr_myerp" />
+		<property name="password" value="myerp" />
+	</bean>
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="txManager" />
+
+</beans>
