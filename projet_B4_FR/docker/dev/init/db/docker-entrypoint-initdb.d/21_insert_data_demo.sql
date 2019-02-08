@@ -64,10 +64,10 @@
 --								
 --		journal_code	annee	derniere_valeur				
 --		VARCHAR	INTEGER	INTEGER				
-	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'AC',	2016,	40	);			
-	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'VE',	2016,	41	);			
-	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'BQ',	2016,	51	);			
-	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'OD',	2016,	88	);			
+	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'AC',	2016,	00001	);			
+	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'VE',	2016,	00002	);			
+	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'BQ',	2016,	00002	);			
+	INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'OD',	2016,	00000	);			
 								
 								
 								
@@ -79,20 +79,20 @@
 --		ecriture_comptable						
 --		id	journal_code	reference	date	libelle		
 --		-1	AC	AC-2016/00001	31/12/16	Cartouches d’imprimante		
---		-2	VE	VE-2016/00002	30/12/16	TMA Appli Xxx		
---		-3	BQ	BQ-2016/00003	29/12/16	Paiement Facture F110001		
---		-4	VE	VE-2016/00004	28/12/16	TMA Appli Yyy		
---		-5	BQ	BQ-2016/00005	27/12/16	Paiement Facture C110002		
+--		-2	VE	VE-2016/00001	30/12/16	TMA Appli Xxx		
+--		-3	BQ	BQ-2016/00001	29/12/16	Paiement Facture F110001		
+--		-4	VE	VE-2016/00002	28/12/16	TMA Appli Yyy		
+--		-5	BQ	BQ-2016/00002	27/12/16	Paiement Facture C110002		
 --								
 --	ecriture_comptable							
 --								
 --		id	journal_code	reference	date	libelle		
 --		INTEGER	VARCHAR	VARCHAR	DATE	VARCHAR		
 	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-1,	'AC',	'AC-2016/00001',	'2016-12-31',	'Cartouches d’imprimante'	);	
-	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-2,	'VE',	'VE-2016/00002',	'2016-12-30',	'TMA Appli Xxx'	);	
-	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-3,	'BQ',	'BQ-2016/00003',	'2016-12-29',	'Paiement Facture F110001'	);	
-	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-4,	'VE',	'VE-2016/00004',	'2016-12-28',	'TMA Appli Yyy'	);	
-	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-5,	'BQ',	'BQ-2016/00005',	'2016-12-27',	'Paiement Facture C110002'	);	
+	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-2,	'VE',	'VE-2016/00001',	'2016-12-30',	'TMA Appli Xxx'	);	
+	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-3,	'BQ',	'BQ-2016/00001',	'2016-12-29',	'Paiement Facture F110001'	);	
+	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-4,	'VE',	'VE-2016/00002',	'2016-12-28',	'TMA Appli Yyy'	);	
+	INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-5,	'BQ',	'BQ-2016/00002',	'2016-12-27',	'Paiement Facture C110002'	);	
 								
 								
 								

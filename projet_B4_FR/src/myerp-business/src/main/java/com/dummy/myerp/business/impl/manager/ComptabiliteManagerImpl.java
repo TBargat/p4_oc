@@ -1,8 +1,11 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -10,7 +13,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     // ==================== Attributs ====================
 	@Autowired
 	ComptabiliteDao comptabiliteDao;
+	
+	public void setComptabiliteDao(ComptabiliteDao vComptabiliteDao) {
+		this.comptabiliteDao = vComptabiliteDao;
+	}
+	
+	
 
     // ==================== Constructeurs ====================
     /**
@@ -67,15 +75,20 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
     /**
      * {@inheritDoc}
+     * @throws FunctionalException 
+     * @throws TechnicalException 
+     * @throws NotFoundException 
      */
     // TODO à tester
     @Override
-    public synchronized void addReference(EcritureComptable pEcritureComptable) {
+    public synchronized void addReference(EcritureComptable pEcritureComptable) throws NotFoundException, TechnicalException, FunctionalException {
         // TODO à implémenter
         // Bien se réferer à la JavaDoc de cette méthode !
         /* Le principe :
                 1.  Remonter depuis la persitance la dernière valeur de la séquence du journal pour l'année de l'écriture
                     (table sequence_ecriture_comptable)
+                    
+                    
                 2.  * S'il n'y a aucun enregistrement pour le journal pour l'année concernée :
                         1. Utiliser le numéro 1.
                     * Sinon :
@@ -84,6 +97,41 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 4.  Enregistrer (insert/update) la valeur de la séquence en persitance
                     (table sequence_ecriture_comptable)
          */
+    	
+    	// Annee de la Date de pEcritureComptable
+    	Date dateEC = pEcritureComptable.getDate();
+    	
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
+    	String yearEC = simpleDateFormat.format(dateEC).toUpperCase();
+    	
+    	//Code journal de pEcritureComptable
+    	String codeJournalEC = pEcritureComptable.getJournal().getCode();
+    	
+    	// 1 - Remonte la derniere valeur
+    	
+    	int lastValue = comptabiliteDao.getSequenceECByJournalCode(codeJournalEC).getDerniereValeur();
+    	int newValue;
+    	// 2
+    	if (!(lastValue == 0)) {
+    		newValue = lastValue + 1;
+    	} else {
+    		newValue = 1;
+    	} 
+    	
+    
+    	// 3
+    	StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
+    	vStB.append(codeJournalEC).append("-").append(yearEC).append("/").append(leftPad(newValue, 5));
+    	
+    	String reference = vStB.toString();
+    	
+    	pEcritureComptable.setReference(reference);
+    	
+    	// 4
+    	
+    	comptabiliteDao.updateSequenceEC(codeJournalEC, newValue);
+    	
+    	
     }
 
     /**
@@ -142,9 +190,30 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             throw new FunctionalException(
                 "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
         }
-
+        
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        // Annee de la Date de pEcritureComptable
+    	Date dateEC = pEcritureComptable.getDate();
+    	
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
+    	String yearEC = simpleDateFormat.format(dateEC).toUpperCase();
+    	
+    	//Code journal de pEcritureComptable
+    	String codeJournalEC = pEcritureComptable.getJournal().getCode();
+    	
+    	// Annee de la ref
+    	String yearRef = pEcritureComptable.getReference().substring(3, 7);
+    	
+    	// Code Journal de la ref
+    	String codeJournalRef = pEcritureComptable.getReference().substring(0,2);
+    	
+    	if (!(yearEC.equalsIgnoreCase(yearRef) && codeJournalEC.equalsIgnoreCase(codeJournalRef))) {
+    		throw new FunctionalException(
+                    "L'écriture comptable n'a pas la bonne ref les informations de l'Ecriture Comptable et de la Reference sont differents" + yearEC + " / " + yearRef + " et " + codeJournalEC + " / " + codeJournalRef);
+    		
+    	}
+        
     }
 
 
@@ -184,14 +253,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     @Override
     public void insertEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException, TechnicalException {
         this.checkEcritureComptable(pEcritureComptable);
-        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
-        try {
-            comptabiliteDao.insertEcritureComptable(pEcritureComptable);
-            getTransactionManager().commitMyERP(vTS);
-            vTS = null;
-        } finally {
-            getTransactionManager().rollbackMyERP(vTS);
-        }
+        comptabiliteDao.insertEcritureComptable(pEcritureComptable);
     }
 
     /**
@@ -199,14 +261,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     @Override
     public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
-        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
-        try {
-            comptabiliteDao.updateEcritureComptable(pEcritureComptable);
-            getTransactionManager().commitMyERP(vTS);
-            vTS = null;
-        } finally {
-            getTransactionManager().rollbackMyERP(vTS);
-        }
+            comptabiliteDao.updateEcritureComptable(pEcritureComptable); 
     }
 
     /**
@@ -214,13 +269,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     @Override
     public void deleteEcritureComptable(Integer pId) {
-        TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
-        try {
             comptabiliteDao.deleteEcritureComptable(pId);
-            getTransactionManager().commitMyERP(vTS);
-            vTS = null;
-        } finally {
-            getTransactionManager().rollbackMyERP(vTS);
-        }
     }
+
+
+	@Override
+	public String leftPad(int n, int padding) {
+		return String.format("%0" + padding + "d", n);
+	}
 }

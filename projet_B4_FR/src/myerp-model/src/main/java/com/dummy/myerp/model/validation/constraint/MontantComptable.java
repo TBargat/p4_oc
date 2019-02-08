@@ -23,6 +23,7 @@ import javax.validation.constraints.Digits;
  *      <li>{@link java.math.BigDecimal}</li>
  *  </ul>
  */
+// RG 7 et 1
 @Digits(integer = 13, fraction = 2)
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)

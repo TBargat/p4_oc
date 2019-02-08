@@ -12,37 +12,7 @@ import javax.validation.ValidatorFactory;
 public abstract class AbstractBusinessManager {
 
 
-    /** Le gestionnaire de Transaction */
-    private static TransactionManager transactionManager;
 
-
-    // ==================== Constructeurs ====================
-
-    /**
-     * Méthode de configuration de la classe
-
-     * @param pTransactionManager -
-     */
-    public static void configure(TransactionManager pTransactionManager) {
-        transactionManager = pTransactionManager;
-    }
-
-
-    // ==================== Getters/Setters ====================
-
-
-
-
-
-
-    /**
-     * Renvoie le gestionnaire de Transaction
-     *
-     * @return TransactionManager
-     */
-    protected TransactionManager getTransactionManager() {
-        return transactionManager;
-    }
 
 
     /**

@@ -3,10 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context = "http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                         http://www.springframework.org/schema/context 
-                        https://www.springframework.org/schema/context/spring-context-4.3.xsd
+                        https://www.springframework.org/schema/context/spring-context.xsd
                         http://www.springframework.org/schema/tx 
     										http://www.springframework.org/schema/tx/spring-tx.xsd">
 
@@ -32,5 +33,8 @@
 	</bean>
 	
 	<tx:annotation-driven transaction-manager="txManager" />
+	<context:annotation-config />
+	<context:component-scan base-package="com.dummy.myerp" />
+
 
 </beans>

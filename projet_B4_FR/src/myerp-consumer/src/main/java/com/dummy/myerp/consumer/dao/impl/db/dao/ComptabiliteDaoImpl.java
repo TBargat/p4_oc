@@ -14,11 +14,13 @@ import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.CompteComptab
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.EcritureComptableRM;
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.JournalComptableRM;
 import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.LigneEcritureComptableRM;
+import com.dummy.myerp.consumer.dao.impl.db.rowmapper.comptabilite.SequenceEcritureComptableRM;
 import com.dummy.myerp.consumer.db.AbstractDbConsumer;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import com.dummy.myerp.technical.exception.TechnicalException;
@@ -26,7 +28,7 @@ import com.dummy.myerp.technical.exception.TechnicalException;
 /**
  * Implémentation de l'interface {@link ComptabiliteDao}
  */
-@Repository
+@Repository("myDao")
 @Transactional(propagation = Propagation.MANDATORY)
 public class ComptabiliteDaoImpl extends AbstractDbConsumer implements ComptabiliteDao {
 
@@ -205,5 +207,39 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 		String sql = "DELETE FROM myerp.ligne_ecriture_comptable\n" + "WHERE ecriture_id = ?";
 		jdbcTemplate.update(sql, pEcritureId);
 	}
+
+	// ==================== SequenceEcritureComptable - GET ====================
+	
+	@Override
+	public SequenceEcritureComptable getSequenceECByJournalCode(String pJournalCode)
+			throws NotFoundException, TechnicalException, FunctionalException {
+		SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
+		String sql = "SELECT * FROM myerp.sequence_ecriture_comptable " + "WHERE journal_code = ?";
+
+		List<SequenceEcritureComptable> secList;
+		try {
+			secList = jdbcTemplate.query(sql, vRM, pJournalCode);
+		} catch (Exception vEx) {
+			throw new TechnicalException("SequenceEcritureComptable non trouvée : journal_code=" + pJournalCode);
+		}
+		if (secList.isEmpty()) {
+			throw new NotFoundException("SequenceEcritureComptable non trouvée : journal_code=" + pJournalCode);
+		}
+		if (secList.size() > 1) {
+			throw new FunctionalException("SequenceEcritureComptable non trouvée : journal_code=" + pJournalCode);
+		}
+		return secList.get(0);
+	}
+
+	// ==================== SequenceEcritureComptable - UPDATE =================
+	@Override
+	public void updateSequenceEC(String pJournalCode, int pDerniereValeur) {
+		String sql = "UPDATE myerp.sequence_ecriture_comptable SET derniere_valeur = ? WHERE journal_code = ?";
+		jdbcTemplate.update(sql, pDerniereValeur, pJournalCode);
+	}
+	
+	
+	
+	
 
 }

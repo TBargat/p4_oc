@@ -1,7 +1,6 @@
 package com.dummy.myerp.dao.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -154,6 +153,20 @@ public class TestComptabiliteDao {
 	@Test(expected = NotFoundException.class)
 	public void testNoEcrituref() throws Exception {
 		dao.getEcritureComptableByRef("FAKE");
+		
 	}
-
+	
+	@Test(expected = NotFoundException.class)
+	public void testNoSequenceEcritureComptable() throws Exception {
+		dao.getSequenceECByJournalCode("FAKE");
+	}
+	
+	
+	@Test
+	public void testSequenceEcritureComptable() throws NotFoundException, TechnicalException, FunctionalException {
+		dao.updateSequenceEC("OD", 1);
+		assertEquals(1, dao.getSequenceECByJournalCode("OD").getDerniereValeur());
+		
+		dao.updateSequenceEC("OD", 0);
+	}
 }

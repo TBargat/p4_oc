@@ -1,11 +1,7 @@
 package com.dummy.myerp.consumer.db;
 
-import java.util.Map;
-
 import javax.sql.DataSource;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
@@ -15,8 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public abstract class AbstractDbConsumer {
 
 // ==================== Attributs Static ====================
-    /** Logger Log4j pour la classe */
-    private static final Logger LOGGER = LogManager.getLogger(AbstractDbConsumer.class);
+
 
 
 
@@ -59,29 +54,6 @@ public abstract class AbstractDbConsumer {
     }
 
 
-    // ==================== Méthodes Static ====================
-    /**
-     * Méthode de configuration de la classe
-     *
-     * @param pMapDataSource -
-     
-    public static void configure(Map<DataSourcesEnum, DataSource> pMapDataSource) {
-        // On pilote l'ajout avec l'Enum et on ne rajoute pas tout à l'aveuglette...
-        //   ( pas de AbstractDbDao.mapDataSource.putAll(...) )
-        Map<DataSourcesEnum, DataSource> vMapDataSource = new HashMap<>(DataSourcesEnum.values().length);
-        DataSourcesEnum[] vDataSourceIds = DataSourcesEnum.values();
-        for (DataSourcesEnum vDataSourceId : vDataSourceIds) {
-            DataSource vDataSource = pMapDataSource.get(vDataSourceId);
-            // On test si la DataSource est configurée
-            // (NB : elle est considérée comme configurée si elle est dans pMapDataSource mais à null)
-            if (vDataSource == null) {
-                if (!pMapDataSource.containsKey(vDataSourceId)) {
-                    LOGGER.error("La DataSource " + vDataSourceId + " n'a pas été initialisée !");
-                }
-            } else {
-                vMapDataSource.put(vDataSourceId, vDataSource);
-            }
-        }
-        mapDataSource = vMapDataSource;
-    }*/
+   
+  
 }
