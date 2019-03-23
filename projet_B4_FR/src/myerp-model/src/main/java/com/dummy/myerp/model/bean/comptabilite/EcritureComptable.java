@@ -24,7 +24,7 @@ public class EcritureComptable {
     /** Journal comptable */
     @NotNull private JournalComptable journal;
     /** The Reference. */
-    @Pattern(regexp = "\\w{1,5}-\\d{4}/\\d{5}")
+    @Pattern(regexp = "\\d{1,5}-\\d{4}/\\d{5}")
     private String reference;
     /** The Date. */
     @NotNull private Date date;
@@ -37,7 +37,7 @@ public class EcritureComptable {
     /** La liste des lignes d'écriture comptable. */
     @Valid
     @Size(min = 2)
-    private List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
+    private final List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
 
 
     // ==================== Getters/Setters ====================
@@ -74,10 +74,6 @@ public class EcritureComptable {
     public List<LigneEcritureComptable> getListLigneEcriture() {
         return listLigneEcriture;
     }
-    
-    public void setListLigneEcriture(List<LigneEcritureComptable> pListLigneEcriture) {
-    	listLigneEcriture = pListLigneEcriture;
-    }
 
     /**
      * Calcul et renvoie le total des montants au débit des lignes d'écriture
@@ -103,8 +99,8 @@ public class EcritureComptable {
     public BigDecimal getTotalCredit() {
         BigDecimal vRetour = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
-            if (vLigneEcritureComptable.getCredit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
+            if (vLigneEcritureComptable.getDebit() != null) {
+                vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
             }
         }
         return vRetour;
