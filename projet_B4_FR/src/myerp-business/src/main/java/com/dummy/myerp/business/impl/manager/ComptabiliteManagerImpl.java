@@ -1,14 +1,18 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.TransactionStatus;
+
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
@@ -17,6 +21,7 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
+import com.dummy.myerp.technical.exception.TechnicalException;
 
 
 /**
@@ -57,10 +62,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
     /**
      * {@inheritDoc}
+     * @throws FunctionalException 
+     * @throws TechnicalException 
+     * @throws NotFoundException 
      */
     // TODO à tester
     @Override
-    public synchronized void addReference(EcritureComptable pEcritureComptable) {
+    public synchronized void addReference(EcritureComptable pEcritureComptable) throws NotFoundException, TechnicalException, FunctionalException {
         // TODO à implémenter
         // Bien se réferer à la JavaDoc de cette méthode !
         /* Le principe :
@@ -74,6 +82,40 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 4.  Enregistrer (insert/update) la valeur de la séquence en persitance
                     (table sequence_ecriture_comptable)
          */
+    	// Annee de la Date de pEcritureComptable
+    	Date dateEC = pEcritureComptable.getDate();
+    	
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
+    	String yearEC = simpleDateFormat.format(dateEC).toUpperCase();
+    	
+    	//Code journal de pEcritureComptable
+    	String codeJournalEC = pEcritureComptable.getJournal().getCode();
+    	
+    	// 1 - Remonte la derniere valeur
+    	
+    	int lastValue = getDaoProxy().getComptabiliteDao().getSequenceECByJournalCode(codeJournalEC).getDerniereValeur();
+    	int newValue;
+    	// 2
+    	if (lastValue != 0) { // revoir l'ordre negation <> 
+    		newValue = lastValue + 1;
+    	} else {
+    		newValue = 1;
+    	} 
+    	
+    
+    	// 3
+    	StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
+    	vStB.append(codeJournalEC).append("-").append(yearEC).append("/").append(leftPad(newValue, 5));
+    	
+    	String reference = vStB.toString();
+    	
+    	pEcritureComptable.setReference(reference);
+    	
+    	
+    	// 4
+    	
+    	getDaoProxy().getComptabiliteDao().updateSequenceEC(codeJournalEC, newValue); // cas de update
+    	// cas d'insert pour le 1
     }
 
     /**
@@ -134,6 +176,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        String vYearDate = new SimpleDateFormat("YYYY").format(pEcritureComptable.getDate());
+        if (!pEcritureComptable.getReference().substring(3, 7).equals(vYearDate))
+            throw new FunctionalException(
+                    "L'année de la référence doit correspondre à celle de la date de l'écriture.");
+        if (!pEcritureComptable.getReference().substring(0, 2).equals(pEcritureComptable.getJournal().getCode()))
+            throw new FunctionalException(
+                    "Le code journal de la référence doit correspondre au code du journal de l'écriture.");
     }
 
 
@@ -210,4 +259,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
+
+
+	@Override
+	public String leftPad(int n, int padding) {
+		return String.format("%0" + padding + "d", n);
+	}
 }

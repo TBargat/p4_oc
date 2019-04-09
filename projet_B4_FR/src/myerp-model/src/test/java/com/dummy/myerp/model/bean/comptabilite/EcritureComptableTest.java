@@ -40,5 +40,31 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
         Assert.assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
     }
+    
+    @Test
+    public void getTotalDebit() {
+    	EcritureComptable vEcriture;
+        vEcriture = new EcritureComptable();
+        
+    	vEcriture.getListLigneEcriture().add(this.createLigne(1, "200.50", null));
+        vEcriture.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
+        vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "301"));
+        vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
+        Assert.assertEquals(341, vEcriture.getTotalDebit().intValue());
+    }
+    
+    @Test
+    public void getTotalCredit() {
+    	EcritureComptable vEcriture;
+        vEcriture = new EcritureComptable();
+        vEcriture.getListLigneEcriture().add(this.createLigne(1, "10", null));
+        vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
+        vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
+        vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
+        Assert.assertEquals(33, vEcriture.getTotalCredit().intValue());
+    	
+    }
+    
+
 
 }

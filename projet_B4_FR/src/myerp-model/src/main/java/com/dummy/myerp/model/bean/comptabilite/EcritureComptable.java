@@ -2,6 +2,7 @@ package com.dummy.myerp.model.bean.comptabilite;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public class EcritureComptable {
     /** Journal comptable */
     @NotNull private JournalComptable journal;
     /** The Reference. */
-    @Pattern(regexp = "\\d{1,5}-\\d{4}/\\d{5}")
+    @Pattern(regexp = "\\w{1,5}-\\d{4}/\\d{5}")
     private String reference;
     /** The Date. */
     @NotNull private Date date;
@@ -37,7 +38,7 @@ public class EcritureComptable {
     /** La liste des lignes d'écriture comptable. */
     @Valid
     @Size(min = 2)
-    private final List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
+    private List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
 
 
     // ==================== Getters/Setters ====================
@@ -74,6 +75,10 @@ public class EcritureComptable {
     public List<LigneEcritureComptable> getListLigneEcriture() {
         return listLigneEcriture;
     }
+    
+    public void setListLigneEcriture(List<LigneEcritureComptable> pListLigneEcriture) {
+    	listLigneEcriture = pListLigneEcriture;
+    }
 
     /**
      * Calcul et renvoie le total des montants au débit des lignes d'écriture
@@ -99,8 +104,8 @@ public class EcritureComptable {
     public BigDecimal getTotalCredit() {
         BigDecimal vRetour = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
-            if (vLigneEcritureComptable.getDebit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
+            if (vLigneEcritureComptable.getCredit() != null) {
+                vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
             }
         }
         return vRetour;
@@ -111,7 +116,9 @@ public class EcritureComptable {
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
+    	BigDecimal totalDebitAbsolute = this.getTotalDebit().setScale(2, RoundingMode.FLOOR); // To be able to compare the Credit and Debit
+    	BigDecimal totalCreditAbsolute = this.getTotalCredit().setScale(2, RoundingMode.FLOOR);
+        boolean vRetour = totalDebitAbsolute.equals(totalCreditAbsolute);
         return vRetour;
     }
 
@@ -133,4 +140,5 @@ public class EcritureComptable {
             .append("}");
         return vStB.toString();
     }
+	
 }

@@ -7,10 +7,12 @@ package com.dummy.myerp.model.bean.comptabilite;
 public class SequenceEcritureComptable {
 
     // ==================== Attributs ====================
-    /** L'année */
+	/** Le Code Journal */
+	private String codeJournal;
+	/** L'année */
     private Integer annee;
     /** La dernière valeur utilisée */
-    private Integer derniereValeur;
+    private int derniereValeur;
 
     // ==================== Constructeurs ====================
     /**
@@ -25,20 +27,29 @@ public class SequenceEcritureComptable {
      * @param pAnnee -
      * @param pDerniereValeur -
      */
-    public SequenceEcritureComptable(Integer pAnnee, Integer pDerniereValeur) {
-        annee = pAnnee;
-        derniereValeur = pDerniereValeur;
-    }
+    public SequenceEcritureComptable(String pCodeJournal, int pAnnee, int pDerniereValeur) {
+		codeJournal = pCodeJournal;
+		annee = pAnnee;
+		derniereValeur = pDerniereValeur;
+	}
 
 
     // ==================== Getters/Setters ====================
+    public String getCodeJournal() {
+		return codeJournal;
+	}
+
+	public void setCodeJournal(String codeJournal) {
+		this.codeJournal = codeJournal;
+	}
+    
     public Integer getAnnee() {
         return annee;
     }
     public void setAnnee(Integer pAnnee) {
         annee = pAnnee;
     }
-    public Integer getDerniereValeur() {
+    public int getDerniereValeur() {
         return derniereValeur;
     }
     public void setDerniereValeur(Integer pDerniereValeur) {

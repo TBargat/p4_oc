@@ -13,7 +13,13 @@ import com.dummy.myerp.model.validation.constraint.MontantComptable;
 public class LigneEcritureComptable {
 
     // ==================== Attributs ====================
-    /** Compte Comptable */
+	/** ecriture comptable id */
+	private int ecritureId;
+
+	/** ligne id */
+	private int ligneId;
+	
+	/** Compte Comptable */
     @NotNull
     private CompteComptable compteComptable;
 
@@ -55,6 +61,22 @@ public class LigneEcritureComptable {
 
 
     // ==================== Getters/Setters ====================
+    public int getEcritureId() {
+		return ecritureId;
+	}
+	
+	public void setEcritureId(int pEcritureId) {
+		ecritureId = pEcritureId;
+	}
+	
+	public int getLigneId() {
+		return ligneId;
+	}
+	
+	public void setLigneId(int pLigneId) {
+		ligneId = pLigneId;
+	}
+	
     public CompteComptable getCompteComptable() {
         return compteComptable;
     }
@@ -94,4 +116,6 @@ public class LigneEcritureComptable {
             .append("}");
         return vStB.toString();
     }
+
+	
 }
