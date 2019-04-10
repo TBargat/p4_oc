@@ -117,13 +117,9 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
 		int sizeListEcritureComptable = listEcritureComptable.size();
 
 		/**
-		 * on verifie la taille et le premier et dernier element de cette liste
+		 * on verifie la taille de cette liste
 		 */
 		assertEquals(6, sizeListEcritureComptable);
-		assertEquals(dao.getEcritureComptable(-1).getLibelle(),
-				listEcritureComptable.get(sizeListEcritureComptable - 6).getLibelle());
-		assertEquals(ecritureComptable.getLibelle(),
-				listEcritureComptable.get(sizeListEcritureComptable - 1).getLibelle());
 
 		/**
 		 * On change la reference de notre objet pour tester un update
