@@ -19,6 +19,7 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import com.dummy.myerp.technical.exception.TechnicalException;
@@ -93,29 +94,29 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	
     	// 1 - Remonte la derniere valeur
     	
-    	int lastValue = getDaoProxy().getComptabiliteDao().getSequenceECByJournalCode(codeJournalEC).getDerniereValeur();
+    	int lastValue = getDaoProxy().getComptabiliteDao().getSequenceECByJournalCodeAndAnnee(codeJournalEC, Integer.valueOf(yearEC)).getDerniereValeur();
     	int newValue;
     	// 2
-    	if (lastValue != 0) { // revoir l'ordre negation <> 
-    		newValue = lastValue + 1;
-    	} else {
+    	if (lastValue == 0) {
     		newValue = 1;
+    	} else {
+    		newValue = lastValue + 1;
     	} 
     	
     
     	// 3
-    	StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
-    	vStB.append(codeJournalEC).append("-").append(yearEC).append("/").append(leftPad(newValue, 5));
-    	
-    	String reference = vStB.toString();
+    	String reference = codeJournalEC + "-" + yearEC + "/" + leftPad(newValue, 5)  ;
     	
     	pEcritureComptable.setReference(reference);
-    	
+    	this.updateEcritureComptable(pEcritureComptable);
     	
     	// 4
     	
-    	getDaoProxy().getComptabiliteDao().updateSequenceEC(codeJournalEC, newValue); // cas de update
-    	// cas d'insert pour le 1
+    	SequenceEcritureComptable vSequenceEC = new SequenceEcritureComptable();
+        vSequenceEC.setCodeJournal(pEcritureComptable.getJournal().getCode());
+        vSequenceEC.setAnnee(Integer.valueOf(yearEC));
+        vSequenceEC.setDerniereValeur(newValue);
+    	getDaoProxy().getComptabiliteDao().insertOrUpdateSequenceEC(vSequenceEC); 
     }
 
     /**
@@ -260,9 +261,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         }
     }
 
-
+   
+    
 	@Override
 	public String leftPad(int n, int padding) {
 		return String.format("%0" + padding + "d", n);
 	}
+
+
+	
 }

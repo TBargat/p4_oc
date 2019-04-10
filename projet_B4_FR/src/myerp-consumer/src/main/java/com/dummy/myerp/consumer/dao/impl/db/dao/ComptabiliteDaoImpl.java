@@ -288,52 +288,51 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 		vSqlParams.addValue("ecriture_id", pEcritureId);
 		vJdbcTemplate.update(SQLdeleteListLigneEcritureComptable, vSqlParams);
 	}
-	
-	/** SQLgetEcritureComptableByRef */
-	private static String SQLgetSequenceECByJournalCode;
 
-	public void setSQLgetSequenceECByJournalCode(String pSQLgetSequenceECByJournalCode) {
-		SQLgetSequenceECByJournalCode = pSQLgetSequenceECByJournalCode;
+	/** SQLgetEcritureComptableByRef */
+	private static String SQLgetSequenceECByJournalCodeAndAnnee;
+
+	public void setSQLgetSequenceECByJournalCodeAndAnnee(String pSQLgetSequenceECByJournalCodeAndAnnee) {
+		SQLgetSequenceECByJournalCodeAndAnnee = pSQLgetSequenceECByJournalCodeAndAnnee;
 	}
+
 	// ==================== SequenceEcritureComptable - GET ====================
 	@Override
-	public SequenceEcritureComptable getSequenceECByJournalCode(String pJournalCode)
+	public SequenceEcritureComptable getSequenceECByJournalCodeAndAnnee(String pJournalCode, Integer pAnnee)
 			throws NotFoundException, TechnicalException, FunctionalException {
 		NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
 		MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
 		vSqlParams.addValue("journal_code", pJournalCode);
+		vSqlParams.addValue("annee", pAnnee);
 		SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
 		SequenceEcritureComptable vBean;
 		try {
-			vBean = vJdbcTemplate.queryForObject(SQLgetSequenceECByJournalCode, vSqlParams, vRM);
+			vBean = vJdbcTemplate.queryForObject(SQLgetSequenceECByJournalCodeAndAnnee, vSqlParams, vRM);
 		} catch (EmptyResultDataAccessException vEx) {
-			throw new NotFoundException("SequenceEcritureComptable non trouvée : Code Journal=" + pJournalCode);
+			throw new NotFoundException("SequenceEcritureComptable non trouvée : Code Journal = " + pJournalCode + " Annee = " + pAnnee);
 		}
 		return vBean;
 	}
-	
-	/** SQLgetEcritureComptableByRef */
-	private static String SQLupdateSequenceEC;
 
-	public void setSQLupdateSequenceEC(String pSQLupdateSequenceEC) {
-		SQLupdateSequenceEC = pSQLupdateSequenceEC;
+	/** SQLgetEcritureComptableByRef */
+	private static String SQLinsertOrUpdateSequenceEC;
+
+	public void setSQLinsertOrUpdateSequenceEC(String pSQLinsertOrUpdateSequenceEC) {
+		SQLinsertOrUpdateSequenceEC = pSQLinsertOrUpdateSequenceEC;
 	}
+
 	// ==================== SequenceEcritureComptable - UPDATE =================
 	@Override
-	public void updateSequenceEC(String pJournalCode, int pDerniereValeur) {
+
+	public void insertOrUpdateSequenceEC(SequenceEcritureComptable pSequenceEC) {
 		NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
 		MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
-		vSqlParams.addValue("derniere_valeur", pDerniereValeur);
-		vSqlParams.addValue("journal_code", pJournalCode);
+		vSqlParams.addValue("journal_code", pSequenceEC.getCodeJournal());
+		vSqlParams.addValue("annee", pSequenceEC.getAnnee());
+		vSqlParams.addValue("derniere_valeur", pSequenceEC.getDerniereValeur());
 
-		vJdbcTemplate.update(SQLupdateSequenceEC, vSqlParams);
+		vJdbcTemplate.update(SQLinsertOrUpdateSequenceEC, vSqlParams);
 
-	}
-
-	@Override
-	public void insertSequenceEC(SequenceEcritureComptable pSeqEC) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

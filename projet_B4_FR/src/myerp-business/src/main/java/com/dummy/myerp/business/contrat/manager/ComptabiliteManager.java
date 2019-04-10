@@ -69,6 +69,7 @@ public interface ComptabiliteManager {
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
     void insertEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException;
+    
 
     /**
      * Met à jour l'écriture comptable.

@@ -17,6 +17,7 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import com.dummy.myerp.technical.exception.TechnicalException;
@@ -158,16 +159,20 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
 	
 	@Test(expected = NotFoundException.class)
 	public void testNoSequenceEcritureComptable() throws Exception {
-		dao.getSequenceECByJournalCode("FAKE");
+		dao.getSequenceECByJournalCodeAndAnnee("FAKE", 1995);
 	}
 	
 	
 	@Test
 	public void testSequenceEcritureComptable() throws NotFoundException, TechnicalException, FunctionalException {
-		dao.updateSequenceEC("OD", 1);
-		assertEquals(1, dao.getSequenceECByJournalCode("OD").getDerniereValeur());
+		SequenceEcritureComptable vSequenceEC = dao.getSequenceECByJournalCodeAndAnnee("OD", 2016) ;
+		vSequenceEC.setDerniereValeur(1);
 		
-		dao.updateSequenceEC("OD", 0);
+		dao.insertOrUpdateSequenceEC(vSequenceEC);
+		assertEquals(1, dao.getSequenceECByJournalCodeAndAnnee("OD", 2016).getDerniereValeur());
+		
+		vSequenceEC.setDerniereValeur(0);
+		dao.insertOrUpdateSequenceEC(vSequenceEC);
 	}
 	
 

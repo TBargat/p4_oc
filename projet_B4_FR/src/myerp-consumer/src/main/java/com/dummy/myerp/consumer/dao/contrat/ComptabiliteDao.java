@@ -85,10 +85,9 @@ public interface ComptabiliteDao {
 	 */
 	void deleteEcritureComptable(Integer pId);
 
-	SequenceEcritureComptable getSequenceECByJournalCode(String pJournalCode)
+	SequenceEcritureComptable getSequenceECByJournalCodeAndAnnee(String pJournalCode, Integer pAnnee)
 			throws NotFoundException, TechnicalException, FunctionalException;
 
-	void updateSequenceEC(String pJournalCode, int pDerniereValeur);
+	void insertOrUpdateSequenceEC(SequenceEcritureComptable pSequenceEC);
 	
-	void insertSequenceEC(SequenceEcritureComptable pSeqEC);
 }
