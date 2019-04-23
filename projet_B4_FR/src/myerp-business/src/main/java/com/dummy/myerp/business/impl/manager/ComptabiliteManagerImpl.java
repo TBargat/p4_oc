@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.TransactionStatus;
 
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
@@ -93,15 +94,21 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	String codeJournalEC = pEcritureComptable.getJournal().getCode();
     	
     	// 1 - Remonte la derniere valeur
+    	int newValue = 1;
+    	try {
+    		SequenceEcritureComptable lastSECused = getDaoProxy().getComptabiliteDao().getSequenceECByJournalCodeAndAnnee(codeJournalEC, Integer.valueOf(yearEC));
+    		if (lastSECused != null) {
+        		int lastValue = lastSECused.getDerniereValeur();
+        		newValue = lastValue + 1;
+        	} 
+    	}
+    	// Catch de l'exception notfound pour eviter l'erreur
+    	catch (NotFoundException vException) { 
+    		
+    	}
     	
-    	int lastValue = getDaoProxy().getComptabiliteDao().getSequenceECByJournalCodeAndAnnee(codeJournalEC, Integer.valueOf(yearEC)).getDerniereValeur();
-    	int newValue;
     	// 2
-    	if (lastValue == 0) {
-    		newValue = 1;
-    	} else {
-    		newValue = lastValue + 1;
-    	} 
+    	
     	
     
     	// 3
@@ -266,6 +273,18 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 	@Override
 	public String leftPad(int n, int padding) {
 		return String.format("%0" + padding + "d", n);
+	}
+
+
+	@Override
+	public SequenceEcritureComptable getSequenceECByJournalCodeAndAnnee(String pJournalCode, Integer pAnnee) throws NotFoundException, TechnicalException, FunctionalException {
+		SequenceEcritureComptable sequenceToGet;
+			try {
+				sequenceToGet = getDaoProxy().getComptabiliteDao().getSequenceECByJournalCodeAndAnnee(pJournalCode, pAnnee);
+			} catch (EmptyResultDataAccessException vEx) {
+				throw new NotFoundException("SequenceEcritureComptable non trouvée : Code Journal = " + pJournalCode + " Annee = " + pAnnee);
+			}
+		return sequenceToGet;
 	}
 
 

@@ -1,6 +1,7 @@
 package com.dummy.myerp.business.contrat;
 
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
+import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 
 
 /**
@@ -16,4 +17,6 @@ public interface BusinessProxy {
      * @return ComptabiliteManager
      */
     ComptabiliteManager getComptabiliteManager();
+    
+    DaoProxy getDaoProxy();
 }

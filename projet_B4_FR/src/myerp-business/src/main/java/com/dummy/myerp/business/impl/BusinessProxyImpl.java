@@ -64,4 +64,9 @@ public class BusinessProxyImpl implements BusinessProxy {
     public ComptabiliteManager getComptabiliteManager() {
         return comptabiliteManager;
     }
+
+	@Override
+	public DaoProxy getDaoProxy() {
+		return daoProxy;
+	}
 }

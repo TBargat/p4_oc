@@ -90,4 +90,6 @@ public interface ComptabiliteDao {
 
 	void insertOrUpdateSequenceEC(SequenceEcritureComptable pSequenceEC);
 	
+	
+	
 }
