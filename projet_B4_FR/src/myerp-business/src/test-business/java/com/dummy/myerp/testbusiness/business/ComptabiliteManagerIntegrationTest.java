@@ -11,21 +11,23 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
-import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 
+/**
+ * ComptabiliteManagerImpl Integration Test
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/bootstrapContext.xml" })
 public class ComptabiliteManagerIntegrationTest extends BusinessTestCase {
 	
 	
 	private ComptabiliteManager managerProxy = getBusinessProxy().getComptabiliteManager();
-	//private ComptabiliteDao dao = getBusinessProxy().getDaoProxy().getComptabiliteDao();
-	// utiliser le Dao pour revoir le test de addReference // Shady// Ou modifier le ComptabiliteManager
-
+	
+	/** Test of the method addReference() in the case of an update */
+	
 	@Test
 	public void addReferenceUpdate() throws Exception {
 		EcritureComptable vEcritureComptable;
@@ -62,12 +64,15 @@ public class ComptabiliteManagerIntegrationTest extends BusinessTestCase {
 
 	}
 	
+	/** Test of the method addReference() in the case of an insert
+	 *	& Test of the Insert and Delete method for Ecriture Comptable 
+	 */
+	
 	@Test
 	public void insertAndDelete() throws Exception {
 		EcritureComptable vEcritureComptable;
 		vEcritureComptable = new EcritureComptable();
 
-		//vEcritureComptable.setId(1);
 		vEcritureComptable.setJournal(new JournalComptable("BQ", "Banque"));
 		vEcritureComptable.setDate(new SimpleDateFormat("yyyy/MM/dd").parse("2019/04/01"));
 		vEcritureComptable.setReference("BQ-2019/00001");

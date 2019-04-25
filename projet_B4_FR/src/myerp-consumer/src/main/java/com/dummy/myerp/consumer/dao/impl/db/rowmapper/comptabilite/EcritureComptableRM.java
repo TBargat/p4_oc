@@ -10,7 +10,7 @@ import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 
 
 /**
- * {@link RowMapper} de {@link EcritureComptable}
+ * {@link RowMapper} of {@link EcritureComptable}
  */
 public class EcritureComptableRM implements RowMapper<EcritureComptable> {
 
@@ -27,7 +27,7 @@ public class EcritureComptableRM implements RowMapper<EcritureComptable> {
         vBean.setDate(pRS.getDate("date"));
         vBean.setLibelle(pRS.getString("libelle"));
 
-        // Chargement des lignes d'écriture
+        // Loading of the list of Ligne Ecriture
         ConsumerHelper.getDaoProxy().getComptabiliteDao().loadListLigneEcriture(vBean);
 
         return vBean;

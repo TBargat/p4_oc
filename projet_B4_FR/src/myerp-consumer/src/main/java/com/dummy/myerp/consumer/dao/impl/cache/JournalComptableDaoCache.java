@@ -7,29 +7,29 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 
 
 /**
- * Cache DAO de {@link JournalComptable}
+ * DAO cache of {@link JournalComptable}
  */
 public class JournalComptableDaoCache {
 
-    // ==================== Attributs ====================
-    /** The List compte comptable. */
+    // ==================== Attributes ====================
+    /** The Compte Comptable List */
     private List<JournalComptable> listJournalComptable;
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
-     * Instantiates a new Compte comptable dao cache.
+     * Instantiates a new Journal Comptable Dao cache.
      */
     public JournalComptableDaoCache() {
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     /**
-     * Gets by code.
+     * Get Journal Comptable by its Code
      *
-     * @param pCode le code du {@link JournalComptable}
-     * @return {@link JournalComptable} ou {@code null}
+     * @param pCode the code of {@link JournalComptable}
+     * @return {@link JournalComptable} or {@code null}
      */
     public JournalComptable getByCode(String pCode) {
         if (listJournalComptable == null) {

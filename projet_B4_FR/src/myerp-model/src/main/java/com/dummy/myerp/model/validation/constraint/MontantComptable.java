@@ -11,14 +11,14 @@ import javax.validation.constraints.Digits;
 
 
 /**
- * Contrainte à apposer sur les attibuts de type "montant comptable"
+ * Constraints on the attributes being "montant comptable"
  *
- *  Cette contrainte est composée de :
+ *  This constraint has :
  *  <ul>
  *      <li>@{@link Digits}</li>
  *  </ul>
  *
- *  Types supportés :
+ *  Handled types :
  *  <ul>
  *      <li>{@link java.math.BigDecimal}</li>
  *  </ul>
@@ -30,23 +30,23 @@ import javax.validation.constraints.Digits;
 @Documented
 public @interface MontantComptable {
 
-    /** Message de la violation */
+    /** Violation message */
     String message() default "Taux de TVA invalide";
 
-    /** Groupe de validation */
+    /** Validation Group */
     Class<?>[] groups() default {};
 
     /** Payload */
     Class<? extends Payload>[] payload() default {};
 
     /**
-     * Interface permettant la déclaration de plusieurs {@link MontantComptable}
+     * Interface to enable the declaration of several {@link MontantComptable}
      */
     @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        /** List des {@link MontantComptable} */
+        /** List of {@link MontantComptable} */
         MontantComptable[] value();
     }
 }

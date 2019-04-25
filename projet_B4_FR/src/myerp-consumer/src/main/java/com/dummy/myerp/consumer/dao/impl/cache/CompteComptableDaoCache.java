@@ -7,29 +7,29 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 
 
 /**
- * Cache DAO de {@link CompteComptable}
+ * DAO Cache of {@link CompteComptable}
  */
 public class CompteComptableDaoCache {
 
-    // ==================== Attributs ====================
-    /** The List compte comptable. */
+    // ==================== Attributes ====================
+    /** The Compte Comptable List */
     private List<CompteComptable> listCompteComptable;
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
-     * Instantiates a new Compte comptable dao cache.
+     * Instantiates a new Compte Comptable dao cache.
      */
     public CompteComptableDaoCache() {
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     /**
-     * Gets by numero.
+     * Get the Compte Compatble by its Numero
      *
-     * @param pNumero the numero
-     * @return {@link CompteComptable} ou {@code null}
+     * @param pNumero the Numero
+     * @return {@link CompteComptable} or {@code null}
      */
     public CompteComptable getByNumero(Integer pNumero) {
         if (listCompteComptable == null) {

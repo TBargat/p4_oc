@@ -6,6 +6,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ *  Ecriture Comptable Tests
+ */
 
 public class EcritureComptableTest {
 
@@ -20,6 +23,8 @@ public class EcritureComptableTest {
         return vRetour;
     }
 
+    /** Test of the method isEquilibree() */
+    
     @Test
     public void isEquilibree() {
         EcritureComptable vEcriture;
@@ -41,6 +46,8 @@ public class EcritureComptableTest {
         Assert.assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
     }
     
+    /** Test of the method getTotalDebit() */
+    
     @Test
     public void getTotalDebit() {
     	EcritureComptable vEcriture;
@@ -52,6 +59,8 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
         Assert.assertEquals(341, vEcriture.getTotalDebit().intValue());
     }
+    
+    /** Test of the method getTotalCredit() */
     
     @Test
     public void getTotalCredit() {

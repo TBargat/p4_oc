@@ -9,7 +9,7 @@ import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 
 
 /**
- * {@link RowMapper} de {@link LigneEcritureComptable}
+ * {@link RowMapper} of {@link LigneEcritureComptable}
  */
 public class LigneEcritureComptableRM implements RowMapper<LigneEcritureComptable> {
 

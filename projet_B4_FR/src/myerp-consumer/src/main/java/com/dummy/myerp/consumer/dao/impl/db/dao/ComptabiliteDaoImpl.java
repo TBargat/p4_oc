@@ -26,16 +26,16 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 import com.dummy.myerp.technical.exception.TechnicalException;
 
 /**
- * Implémentation de l'interface {@link ComptabiliteDao}
+ * Implementation of {@link ComptabiliteDao}
  */
 public class ComptabiliteDaoImpl extends AbstractDbConsumer implements ComptabiliteDao {
 
-	// ==================== Constructeurs ====================
-	/** Instance unique de la classe (design pattern Singleton) */
+	// ==================== Constructors ====================
+	/** Singleton Design Pattern to create a single instance */
 	private static final ComptabiliteDaoImpl INSTANCE = new ComptabiliteDaoImpl();
 
 	/**
-	 * Renvoie l'instance unique de la classe (design pattern Singleton).
+	 * Return the Singleton-created instance
 	 *
 	 * @return {@link ComptabiliteDaoImpl}
 	 */
@@ -44,13 +44,13 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 	}
 
 	/**
-	 * Constructeur.
+	 * Constructor.
 	 */
 	protected ComptabiliteDaoImpl() {
 		super();
 	}
 
-	// ==================== Méthodes ====================
+	// ==================== Methods ====================
 	/** SQLgetListCompteComptable */
 	private static String SQLgetListCompteComptable;
 
@@ -309,7 +309,8 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 		try {
 			vBean = vJdbcTemplate.queryForObject(SQLgetSequenceECByJournalCodeAndAnnee, vSqlParams, vRM);
 		} catch (EmptyResultDataAccessException vEx) {
-			throw new NotFoundException("SequenceEcritureComptable non trouvée : Code Journal = " + pJournalCode + " Annee = " + pAnnee);
+			throw new NotFoundException(
+					"SequenceEcritureComptable non trouvée : Code Journal = " + pJournalCode + " Annee = " + pAnnee);
 		}
 		return vBean;
 	}

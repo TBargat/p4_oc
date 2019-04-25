@@ -7,73 +7,71 @@ import java.util.Date;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-
 /**
- * Classe utilitaire travaillant sur les ResultSet
+ * Utility classes for the ResultSet
  */
 public abstract class ResultSetHelper {
 
-    // ==================== Constructeurs ====================
-    /**
-     * Constructeur.
-     */
-    protected ResultSetHelper() {
-        super();
-    }
+	// ==================== Constructors ====================
+	/**
+	 * Constructor.
+	 */
+	protected ResultSetHelper() {
+		super();
+	}
 
+	// ==================== Methods ====================
+	/**
+	 * Return the value of the column pColName as an <code>Integer</code>. If the
+	 * column equals <code>null</code>, the method returns <code>null</code>
+	 *
+	 * @param pRS      : The ResultSet to call
+	 * @param pColName : The name of the column in the return of the SQL request
+	 * @return <code>Integer</code> or <code>null</code>
+	 * @throws SQLException on an SQL error
+	 */
+	public static Integer getInteger(ResultSet pRS, String pColName) throws SQLException {
+		Integer vRetour = null;
+		int vInt = pRS.getInt(pColName);
+		if (!pRS.wasNull()) {
+			vRetour = new Integer(vInt);
+		}
+		return vRetour;
+	}
 
-    // ==================== Méthodes ====================
-    /**
-     * Renvoie la valeur de la colonne pColName dans un <code>Integer</code>.
-     * Si la colonne vaut <code>null</code>, la méthode renvoie <code>null</code>
-     *
-     * @param pRS : Le ResultSet à intéroger
-     * @param pColName : Le nom de la colonne dans le retour de la requête SQL
-     * @return <code>Integer</code> ou <code>null</code>
-     * @throws SQLException sur erreur SQL
-     */
-    public static Integer getInteger(ResultSet pRS, String pColName) throws SQLException {
-        Integer vRetour = null;
-        int vInt = pRS.getInt(pColName);
-        if (!pRS.wasNull()) {
-            vRetour = new Integer(vInt);
-        }
-        return vRetour;
-    }
+	/**
+	 * Return the value of the column pColName as an <code>Long</code>. If the
+	 * column equals <code>null</code>, the method returns <code>null</code>
+	 *
+	 * @param pRS      : The ResultSet to call
+	 * @param pColName : The name of the column in the return of the SQL request
+	 * @return <code>Long</code> or <code>null</code>
+	 * @throws SQLException on an SQL error
+	 */
+	public static Long getLong(ResultSet pRS, String pColName) throws SQLException {
+		Long vRetour = null;
+		Long vLong = pRS.getLong(pColName);
+		if (!pRS.wasNull()) {
+			vRetour = new Long(vLong);
+		}
+		return vRetour;
+	}
 
-    /**
-     * Renvoie la valeur de la colonne pColName dans un <code>Long</code>.
-     * Si la colonne vaut <code>null</code>, la méthode renvoie <code>null</code>
-     *
-     * @param pRS : Le ResultSet à intéroger
-     * @param pColName : Le nom de la colonne dans le retour de la requête SQL
-     * @return <code>Long</code> ou <code>null</code>
-     * @throws SQLException sur erreur SQL
-     */
-    public static Long getLong(ResultSet pRS, String pColName) throws SQLException {
-        Long vRetour = null;
-        Long vLong = pRS.getLong(pColName);
-        if (!pRS.wasNull()) {
-            vRetour = new Long(vLong);
-        }
-        return vRetour;
-    }
-
-
-    /**
-     * Renvoie la valeur de la colonne pColName dans un {@link Date} en faisant un truncate de l'heure.
-     * Si la colonne vaut <code>null</code>, la méthode renvoie <code>null</code>.
-     *
-     * @param pRS : Le ResultSet à intéroger
-     * @param pColName : Le nom de la colonne dans le retour de la requête SQL
-     * @return {@link Date} ou <code>null</code>
-     * @throws SQLException sur erreur SQL
-     */
-    public static Date getDate(ResultSet pRS, String pColName) throws SQLException {
-        Date vDate = pRS.getDate(pColName);
-        if (vDate != null) {
-            vDate = DateUtils.truncate(vDate, Calendar.DATE);
-        }
-        return vDate;
-    }
+	/**
+	 * Return the value of the column pColName as a {@link Date} while truncating
+	 * the hour If the column equals <code>null</code>, the method returns
+	 * <code>null</code>.
+	 *
+	 * @param pRS      : The ResultSet to call
+	 * @param pColName : The name of the column in the return of the SQL request
+	 * @return {@link Date} or <code>null</code>
+	 * @throws SQLException on an SQL error
+	 */
+	public static Date getDate(ResultSet pRS, String pColName) throws SQLException {
+		Date vDate = pRS.getDate(pColName);
+		if (vDate != null) {
+			vDate = DateUtils.truncate(vDate, Calendar.DATE);
+		}
+		return vDate;
+	}
 }

@@ -8,7 +8,7 @@ import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 
 
 /**
- * {@link RowMapper} de {@link CompteComptable}
+ * {@link RowMapper} of {@link CompteComptable}
  */
 public class CompteComptableRM implements RowMapper<CompteComptable> {
 

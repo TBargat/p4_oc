@@ -15,11 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 
 
 /**
- * Bean représentant une Écriture Comptable
+ * Écriture Comptable Bean
  */
 public class EcritureComptable {
 
-    // ==================== Attributs ====================
+    // ==================== Attributes ====================
     /** The Id. */
     private Integer id;
     /** Journal comptable */
@@ -35,7 +35,7 @@ public class EcritureComptable {
     @Size(min = 1, max = 200)
     private String libelle;
 
-    /** La liste des lignes d'écriture comptable. */
+    /** Ecriture Comptables' List */
     @Valid
     @Size(min = 2)
     private List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
@@ -81,9 +81,9 @@ public class EcritureComptable {
     }
 
     /**
-     * Calcul et renvoie le total des montants au débit des lignes d'écriture
+     * Compute and return the total of the Debit amounts on the Ligne Ecriture 
      *
-     * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au débit
+     * @return {@link BigDecimal}, {@link BigDecimal#ZERO} if there is no amount in the Debit
      */
     // TODO à tester
     public BigDecimal getTotalDebit() {
@@ -97,9 +97,9 @@ public class EcritureComptable {
     }
 
     /**
-     * Calcul et renvoie le total des montants au crédit des lignes d'écriture
+     * Compute and return the total of the Credit amounts on the Ligne Ecriture
      *
-     * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au crédit
+     * @return {@link BigDecimal}, {@link BigDecimal#ZERO} if there is no amount in the Credit
      */
     public BigDecimal getTotalCredit() {
         BigDecimal vRetour = BigDecimal.ZERO;
@@ -112,7 +112,7 @@ public class EcritureComptable {
     }
 
     /**
-     * Renvoie si l'écriture est équilibrée (TotalDebit = TotalCrédit)
+     * Return True is the Ecriture is balanced (TotalDebit = TotalCrédit)
      * @return boolean
      */
     public boolean isEquilibree() {
@@ -122,7 +122,7 @@ public class EcritureComptable {
         return vRetour;
     }
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     @Override
     public String toString() {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());

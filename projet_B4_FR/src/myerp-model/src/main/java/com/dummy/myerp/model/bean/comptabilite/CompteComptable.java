@@ -8,10 +8,10 @@ import javax.validation.constraints.Size;
 
 
 /**
- * Bean représentant un Compte Comptable
+ *  Compte Comptable Bean
  */
 public class CompteComptable {
-    // ==================== Attributs ====================
+    // ==================== Attributes ====================
     /** The Numero. */
     @NotNull
     private Integer numero;
@@ -22,7 +22,7 @@ public class CompteComptable {
     private String libelle;
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
      * Instantiates a new Compte comptable.
      */
@@ -65,7 +65,7 @@ public class CompteComptable {
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     @Override
     public String toString() {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
@@ -78,13 +78,13 @@ public class CompteComptable {
     }
 
 
-    // ==================== Méthodes STATIC ====================
+    // ==================== Static Methods ====================
     /**
-     * Renvoie le {@link CompteComptable} de numéro {@code pNumero} s'il est présent dans la liste
+     * Return the {@link CompteComptable} with number {@code pNumero} if it belongs to the list
      *
-     * @param pList la liste où chercher le {@link CompteComptable}
-     * @param pNumero le numero du {@link CompteComptable} à chercher
-     * @return {@link CompteComptable} ou {@code null}
+     * @param pList the list where to look for {@link CompteComptable}
+     * @param pNumero the number of the wanted {@link CompteComptable}
+     * @return {@link CompteComptable} or {@code null}
      */
     public static CompteComptable getByNumero(List<? extends CompteComptable> pList, Integer pNumero) {
         CompteComptable vRetour = null;

@@ -7,6 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 
+/**
+ * {@link RowMapper} of {@link SequenceEcritureComptable}
+ */
+
 public class SequenceEcritureComptableRM implements RowMapper<SequenceEcritureComptable> {
 
 	@Override

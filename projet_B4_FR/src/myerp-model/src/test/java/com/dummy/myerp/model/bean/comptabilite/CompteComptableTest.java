@@ -7,7 +7,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ *  Compte Comptable Tests
+ */
+
 public class CompteComptableTest {
+	
+	/** Test of the method getBynumero() */
 	
 	@Test
 	public void getBynumero() {

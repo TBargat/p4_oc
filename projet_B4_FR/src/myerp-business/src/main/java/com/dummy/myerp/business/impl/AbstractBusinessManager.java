@@ -10,22 +10,22 @@ import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 
 
 /**
- * <p>Classe mère des Managers</p>
+ * <p>Abstract class for the Managers</p>
  */
 public abstract class AbstractBusinessManager {
 
-    /** Le Proxy d'accès à la couche Business */
+    /** Proxy to access the Business layer */
     private static BusinessProxy businessProxy;
-    /** Le Proxy d'accès à la couche Consumer-DAO */
+    /** Proxy to access the Consumer-DAO layer */
     private static DaoProxy daoProxy;
-    /** Le gestionnaire de Transaction */
+    /** Transaction manager */
     private static TransactionManager transactionManager;
 
 
     // ==================== Constructeurs ====================
 
     /**
-     * Méthode de configuration de la classe
+     * Configuration method for the class
      *
      * @param pBusinessProxy      -
      * @param pDaoProxy           -
@@ -43,7 +43,7 @@ public abstract class AbstractBusinessManager {
     // ==================== Getters/Setters ====================
 
     /**
-     * Renvoie le Proxy d'accès à la couche Business
+     * Return the proxy to access the Business Layer
      *
      * @return {@link BusinessProxy}
      */
@@ -53,7 +53,7 @@ public abstract class AbstractBusinessManager {
 
 
     /**
-     * Renvoie le Proxy d'accès à la couche Consumer-DAO
+     * Return the proxy to access the Consumer-DAO Layer
      *
      * @return {@link DaoProxy}
      */
@@ -63,7 +63,7 @@ public abstract class AbstractBusinessManager {
 
 
     /**
-     * Renvoie le gestionnaire de Transaction
+     * Return the Transaction Manager
      *
      * @return TransactionManager
      */
@@ -73,7 +73,7 @@ public abstract class AbstractBusinessManager {
 
 
     /**
-     * Renvoie un {@link Validator} de contraintes
+     * Return {@link Validator} for constraints
      *
      * @return Validator
      */

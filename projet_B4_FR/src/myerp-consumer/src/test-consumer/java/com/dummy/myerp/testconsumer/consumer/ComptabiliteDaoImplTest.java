@@ -22,11 +22,17 @@ import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import com.dummy.myerp.technical.exception.TechnicalException;
 
+/**
+ * ComptabiliteDaoImpl Integration Test
+ */
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/bootstrapContext.xml" }) // A retirer doublon
+@ContextConfiguration(locations = { "classpath:/bootstrapContext.xml" })
 public class ComptabiliteDaoImplTest extends ConsumerTestCase {
-	
+
 	private ComptabiliteDaoImpl dao = (ComptabiliteDaoImpl) getDaoProxy().getComptabiliteDao();
+
+	/** Test of the method getListCompteComptable() */
 
 	@Test
 	public void testGetListCompteComptable() {
@@ -43,6 +49,8 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
 
 	}
 
+	/** Test of the method getListCompteComptable() */
+
 	@Test
 	public void testGetListJournalComptable() {
 
@@ -57,13 +65,14 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
 		assertEquals(4, sizeList);
 	}
 
+	/** Test of the whole CRUD cycle of the DAO */
+
 	@Test(expected = NotFoundException.class)
 	public void testEcritureComptableCRUDCycle() throws NotFoundException, TechnicalException, FunctionalException {
 
 		/**
-		 * Creation d'une instance ecriture comptable et journal comptable pour tester
-		 * les methodes
-		 * 
+		 * Creation of instances of Ecriture Comptable and Ligne Ecriture Comptable to
+		 * use the different methods
 		 */
 
 		JournalComptable journalComptable = dao.getListJournalComptable().get(2);
@@ -104,72 +113,71 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
 		ecritureComptable.setListLigneEcriture(listLigneEcritureComptable);
 
 		/**
-		 * On fait les deux insertions
+		 * We do the insertion
 		 */
 
 		dao.insertEcritureComptable(ecritureComptable);
 
 		/**
-		 * On s'assure qu'elle s'est bien ajoutee en regardans la taille de la liste et
-		 * le dernier element
+		 * We check the size of the list to be sure that the change occured
 		 */
 		List<EcritureComptable> listEcritureComptable = dao.getListEcritureComptable();
 		int sizeListEcritureComptable = listEcritureComptable.size();
 
-		/**
-		 * on verifie la taille de cette liste
-		 */
 		assertEquals(6, sizeListEcritureComptable);
 
 		/**
-		 * On change la reference de notre objet pour tester un update
+		 * We change the reference to check the Update method
 		 */
 
 		ecritureComptable.setReference("BQ-2018/00010");
-
 		dao.updateEcritureComptable(ecritureComptable);
 
 		assertEquals("Paiement facture X", dao.getEcritureComptableByRef("BQ-2018/00010").getLibelle());
 
 		/**
-		 * on teste de le delete maintenant
+		 * We finally test the Delete method
 		 */
 
 		dao.deleteEcritureComptable(ecritureComptable.getId());
-
 		assertEquals(5, dao.getListEcritureComptable().size());
 		dao.getEcritureComptableByRef("BQ-2018/00010");
 
 	}
 
+	/** Test of the exception of the method getEcritureComptable() */
+
 	@Test(expected = NotFoundException.class)
 	public void testNoEcritureId() throws Exception {
 		dao.getEcritureComptable(10);
 	}
-	
+
+	/** Test of the exception of the method .getEcritureComptableByRef() */
+
 	@Test(expected = NotFoundException.class)
 	public void testNoEcrituref() throws Exception {
 		dao.getEcritureComptableByRef("FAKE");
-		
+
 	}
+	
+	/** Test of the exception of the method getSequenceECByJournalCodeAndAnnee() */
 	
 	@Test(expected = NotFoundException.class)
 	public void testNoSequenceEcritureComptable() throws Exception {
 		dao.getSequenceECByJournalCodeAndAnnee("FAKE", 1995);
 	}
-	
+	/** Test of the methods of SequenceEcritureComptable */ 
 	
 	@Test
 	public void testSequenceEcritureComptable() throws NotFoundException, TechnicalException, FunctionalException {
-		SequenceEcritureComptable vSequenceEC = dao.getSequenceECByJournalCodeAndAnnee("OD", 2016) ;
+		SequenceEcritureComptable vSequenceEC = dao.getSequenceECByJournalCodeAndAnnee("OD", 2016);
 		vSequenceEC.setDerniereValeur(1);
-		
+
 		dao.insertOrUpdateSequenceEC(vSequenceEC);
 		assertEquals(1, dao.getSequenceECByJournalCodeAndAnnee("OD", 2016).getDerniereValeur());
-		
+
 		vSequenceEC.setDerniereValeur(0);
 		dao.insertOrUpdateSequenceEC(vSequenceEC);
 	}
-	
 
 }

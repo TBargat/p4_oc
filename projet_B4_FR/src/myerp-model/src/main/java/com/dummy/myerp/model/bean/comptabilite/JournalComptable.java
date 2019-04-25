@@ -7,23 +7,23 @@ import javax.validation.constraints.Size;
 
 
 /**
- * Bean représentant un Journal Comptable
+ * Journal Comptable Bean
  */
 public class JournalComptable {
 
-    // ==================== Attributs ====================
-    /** code */
+    // ==================== Attributes ====================
+    /** Code */
     @NotNull
     @Size(min = 1, max = 5)
     private String code;
 
-    /** libelle */
+    /** Libelle */
     @NotNull
     @Size(min = 1, max = 150)
     private String libelle;
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
      * Instantiates a new Journal comptable.
      */
@@ -57,7 +57,7 @@ public class JournalComptable {
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     @Override
     public String toString() {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
@@ -72,11 +72,11 @@ public class JournalComptable {
 
     // ==================== Méthodes STATIC ====================
     /**
-     * Renvoie le {@link JournalComptable} de code {@code pCode} s'il est présent dans la liste
+     * Return the {@link JournalComptable} with the code {@code pCode} if it belongs to the list
      *
-     * @param pList la liste où chercher le {@link JournalComptable}
-     * @param pCode le code du {@link JournalComptable} à chercher
-     * @return {@link JournalComptable} ou {@code null}
+     * @param pList the list where to look for {@link JournalComptable}
+     * @param pCode the code of the wanted {@link JournalComptable} 
+     * @return {@link JournalComptable} or {@code null}
      */
     public static JournalComptable getByCode(List<? extends JournalComptable> pList, String pCode) {
         JournalComptable vRetour = null;

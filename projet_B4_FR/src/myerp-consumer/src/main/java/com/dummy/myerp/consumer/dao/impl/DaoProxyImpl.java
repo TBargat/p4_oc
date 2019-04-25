@@ -5,21 +5,21 @@ import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 
 
 /**
- * <p>Implémentation du Proxy d'accès à la couche DAO.</p>
+ * <p>Implementation of the proxy to access the DAO</p>
  */
 public final class DaoProxyImpl implements DaoProxy {
 
-    // ==================== Attributs ====================
+    // ==================== Attributes ====================
     /** {@link ComptabiliteDao} */
     private ComptabiliteDao comptabiliteDao;
 
 
-    // ==================== Constructeurs ====================
-    /** Instance unique de la classe (design pattern Singleton) */
+    // ==================== Constructors ====================
+    /** Singleton Design Pattern to get a single instance */
     private static final DaoProxyImpl INSTANCE = new DaoProxyImpl();
 
     /**
-     * Renvoie l'instance unique de la classe (design pattern Singleton).
+     * Return the instance of the Singleton
      *
      * @return {@link DaoProxyImpl}
      */
@@ -28,7 +28,7 @@ public final class DaoProxyImpl implements DaoProxy {
     }
 
     /**
-     * Constructeur.
+     * Constructor.
      */
     private DaoProxyImpl() {
         super();

@@ -27,14 +27,11 @@ import com.dummy.myerp.technical.exception.TechnicalException;
 
 
 /**
- * Comptabilite manager implementation.
+ * Comptabilite Manager implementation.
  */
 public class ComptabiliteManagerImpl extends AbstractBusinessManager implements ComptabiliteManager {
 
-    // ==================== Attributs ====================
-
-
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
      * Instantiates a new Comptabilite manager.
      */

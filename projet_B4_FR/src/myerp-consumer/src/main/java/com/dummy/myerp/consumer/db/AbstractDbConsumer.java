@@ -2,33 +2,35 @@ package com.dummy.myerp.consumer.db;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.dummy.myerp.consumer.ConsumerHelper;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 
 
 /**
- * <p>Classe mère des classes de Consumer DB</p>
+ * <p>Abstract Class for the DB Consumer</p>
  */
 public abstract class AbstractDbConsumer {
 
-// ==================== Attributs Static ====================
-    /** Logger Log4j pour la classe */
+// ==================== Static Attributes ====================
+    /** Logger Log4j for the class */
     private static final Logger LOGGER = LogManager.getLogger(AbstractDbConsumer.class);
 
 
-    /** Map des DataSources */
+    /** Map of the DataSources */
     private static Map<DataSourcesEnum, DataSource> mapDataSource;
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
 
     /**
-     * Constructeur.
+     * Constructor.
      */
     protected AbstractDbConsumer() {
         super();
@@ -37,7 +39,7 @@ public abstract class AbstractDbConsumer {
 
     // ==================== Getters/Setters ====================
     /**
-     * Renvoie une {@link DaoProxy}
+     * Return a {@link DaoProxy}
      *
      * @return {@link DaoProxy}
      */
@@ -46,9 +48,9 @@ public abstract class AbstractDbConsumer {
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     /**
-     * Renvoie le {@link DataSource} associé demandée
+     * Return the wanted {@link DataSource}
      *
      * @param pDataSourceId -
      * @return SimpleJdbcTemplate
@@ -63,15 +65,15 @@ public abstract class AbstractDbConsumer {
 
 
     /**
-     * Renvoie le dernière valeur utilisé d'une séquence
+     * Return the last value of a sequence
      *
-     * <p><i><b>Attention : </b>Méthode spécifique au SGBD PostgreSQL</i></p>
+     * <p><i><b>Beware : </b>Method working specifically for PostgreSQL</i></p>
      *
-     * @param <T> : La classe de la valeur de la séquence.
-     * @param pDataSourcesId : L'identifiant de la {@link DataSource} à utiliser
-     * @param pSeqName : Le nom de la séquence dont on veut récupérer la valeur
-     * @param pSeqValueClass : Classe de la valeur de la séquence
-     * @return la dernière valeur de la séquence
+     * @param <T> : The value's class of the Sequence.
+     * @param pDataSourcesId : The id of {@link DataSource} to use
+     * @param pSeqName :The name of the Sequence we want the value of
+     * @param pSeqValueClass : Value's class of the Sequence
+     * @return Last value of the sequence
      */
     protected <T> T queryGetSequenceValuePostgreSQL(DataSourcesEnum pDataSourcesId,
                                                     String pSeqName, Class<T> pSeqValueClass) {
@@ -84,21 +86,19 @@ public abstract class AbstractDbConsumer {
     }
 
 
-    // ==================== Méthodes Static ====================
+    // ==================== Static Methods ====================
     /**
-     * Méthode de configuration de la classe
+     * Configuration method for the class
      *
      * @param pMapDataSource -
      */
     public static void configure(Map<DataSourcesEnum, DataSource> pMapDataSource) {
-        // On pilote l'ajout avec l'Enum et on ne rajoute pas tout à l'aveuglette...
-        //   ( pas de AbstractDbDao.mapDataSource.putAll(...) )
+    	/** We lead the DataSource integration with an Enum */
         Map<DataSourcesEnum, DataSource> vMapDataSource = new HashMap<>(DataSourcesEnum.values().length);
         DataSourcesEnum[] vDataSourceIds = DataSourcesEnum.values();
         for (DataSourcesEnum vDataSourceId : vDataSourceIds) {
-            DataSource vDataSource = pMapDataSource.get(vDataSourceId);
-            // On test si la DataSource est configurée
-            // (NB : elle est considérée comme configurée si elle est dans pMapDataSource mais à null)
+            DataSource vDataSource = pMapDataSource.get(vDataSourceId);            
+            /** We check if the DataSource is configurated i.e. if it is in pMapDataSource and null*/
             if (vDataSource == null) {
                 if (!pMapDataSource.containsKey(vDataSourceId)) {
                     LOGGER.error("La DataSource " + vDataSourceId + " n'a pas été initialisée !");

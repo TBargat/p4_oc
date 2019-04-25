@@ -8,18 +8,18 @@ import com.dummy.myerp.model.validation.constraint.MontantComptable;
 
 
 /**
- * Bean représentant une Ligne d'écriture comptable.
+ * Ligne d'Ecriture Comptable Bean
  */
 public class LigneEcritureComptable {
 
-    // ==================== Attributs ====================
-	/** ecriture comptable id */
+    // ==================== Attributes ====================
+	/** Ecriture Comptable ID. */
 	private int ecritureId;
 
-	/** ligne id */
+	/** Ligne ID. */
 	private int ligneId;
 	
-	/** Compte Comptable */
+	/** Compte Comptable. */
     @NotNull
     private CompteComptable compteComptable;
 
@@ -36,7 +36,7 @@ public class LigneEcritureComptable {
     private BigDecimal credit;
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
      * Instantiates a new Ligne ecriture comptable.
      */
@@ -103,7 +103,7 @@ public class LigneEcritureComptable {
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     @Override
     public String toString() {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());

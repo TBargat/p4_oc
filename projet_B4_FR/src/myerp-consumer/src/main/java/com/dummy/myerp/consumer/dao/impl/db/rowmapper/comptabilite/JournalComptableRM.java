@@ -8,7 +8,7 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 
 
 /**
- * {@link RowMapper} de {@link JournalComptable}
+ * {@link RowMapper} of {@link JournalComptable}
  */
 public class JournalComptableRM implements RowMapper<JournalComptable> {
 

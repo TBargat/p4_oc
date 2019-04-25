@@ -12,12 +12,12 @@ import com.dummy.myerp.technical.exception.TechnicalException;
 
 
 /**
- * Interface du manager du package comptabilite.
+ * Interface of the Manager
  */
 public interface ComptabiliteManager {
 
     /**
-     * Renvoie la liste des comptes comptables.
+     * Return the list of Compte Comptable
      *
      * @return {@link List}
      */
@@ -25,7 +25,7 @@ public interface ComptabiliteManager {
 
 
     /**
-     * Renvoie la liste des journaux comptables.
+     * Return the list of Journal Comptable
      *
      * @return {@link List}
      */
@@ -33,7 +33,7 @@ public interface ComptabiliteManager {
 
 
     /**
-     * Renvoie la liste des écritures comptables.
+     * Return the list of Ecriture Comptable
      *
      * @return {@link List}
      */
@@ -42,52 +42,55 @@ public interface ComptabiliteManager {
     SequenceEcritureComptable getSequenceECByJournalCodeAndAnnee(String pJournalCode, Integer pAnnee) throws NotFoundException, TechnicalException, FunctionalException;
 
     /**
-     * Ajoute une référence à l'écriture comptable.
+     * Add a reference to the Ecriture Comptable
      *
-     * <strong>RG_Compta_5 : </strong>
+     * <strong>Rule to respect - RG_Compta_5 : </strong>
      * La référence d'une écriture comptable est composée du code du journal dans lequel figure l'écriture
      * suivi de l'année et d'un numéro de séquence (propre à chaque journal) sur 5 chiffres incrémenté automatiquement
      * à chaque écriture. Le formatage de la référence est : XX-AAAA/#####.
      * <br>
-     * Ex : Journal de banque (BQ), écriture au 31/12/2016
+     * Ex : Journal de banque (BQ), Ecriture on the 31/12/2016
      * <pre>BQ-2016/00001</pre>
      *
-     * <p><strong>Attention :</strong> l'écriture n'est pas enregistrée en persistance</p>
-     * @param pEcritureComptable L'écriture comptable concernée
+     * <p><strong>Beware :</strong> the Ecriture is not saved on the DB</p>
+     * @param pEcritureComptable The Ecriture Comptable used
      */
     void addReference(EcritureComptable pEcritureComptable) throws NotFoundException, TechnicalException, FunctionalException;
 
     /**
-     * Vérifie que l'Ecriture comptable respecte les règles de gestion.
+     * Check that the Ecriture Compatble meets the requirements set by the Rules
      *
      * @param pEcritureComptable -
-     * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
+     * @throws FunctionalException If the Ecriture Comptable does not meet the requirements
      */
     void checkEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException;
 
     /**
-     * Insert une nouvelle écriture comptable.
+     * Insert a new Ecriture Comptable
      *
      * @param pEcritureComptable -
-     * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
+     * @throws FunctionalException If the Ecriture Comptable does not meet the requirements
      */
     void insertEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException;
     
 
     /**
-     * Met à jour l'écriture comptable.
+     * Update an Ecriture Comptable
      *
      * @param pEcritureComptable -
-     * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
+     * @throws FunctionalException If the Ecriture Comptable does not meet the requirements
      */
     void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException;
 
     /**
-     * Supprime l'écriture comptable d'id {@code pId}.
+     * Delete the Ecriture Comptable with the id {@code pId}.
      *
-     * @param pId l'id de l'écriture
+     * @param pId The ID of the Ecriture Comptable
      */
     void deleteEcritureComptable(Integer pId);
     
+    /**
+     * Utility method to format the value of a reference
+     */
     public String leftPad(int n, int padding);
 }

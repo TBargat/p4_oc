@@ -6,7 +6,7 @@ import com.dummy.myerp.business.impl.TransactionManager;
 
 
 /**
- * Classe mère des classes de test d'intégration de la couche Business
+ * Test Case for all the integration tests of the Business Layer
  */
 public abstract class BusinessTestCase {
 
@@ -20,9 +20,9 @@ public abstract class BusinessTestCase {
     private static final TransactionManager TRANSACTION_MANAGER = SpringRegistry.getTransactionManager();
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
-     * Constructeur.
+     * Constructor.
      */
     public BusinessTestCase() {
     }

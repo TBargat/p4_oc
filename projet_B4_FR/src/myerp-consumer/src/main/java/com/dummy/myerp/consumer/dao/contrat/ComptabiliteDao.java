@@ -11,19 +11,19 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 import com.dummy.myerp.technical.exception.TechnicalException;
 
 /**
- * Interface de DAO des objets du package Comptabilite
+ * DAO Interface 
  */
 public interface ComptabiliteDao {
 
 	/**
-	 * Renvoie la liste des Comptes Comptables
+	 * Return the list of Compte Comptable
 	 * 
 	 * @return {@link List}
 	 */
 	List<CompteComptable> getListCompteComptable();
 
 	/**
-	 * Renvoie la liste des Journaux Comptables
+	 * Return the list of Journal Comptable
 	 * 
 	 * @return {@link List}
 	 */
@@ -32,32 +32,32 @@ public interface ComptabiliteDao {
 	// ==================== EcritureComptable ====================
 
 	/**
-	 * Renvoie la liste des Écritures Comptables
+	 * Return the list of Écriture Comptable
 	 * 
 	 * @return {@link List}
 	 */
 	List<EcritureComptable> getListEcritureComptable();
 
 	/**
-	 * Renvoie l'Écriture Comptable d'id {@code pId}.
+	 * Return the Écriture Comptable with the id {@code pId}.
 	 *
-	 * @param pId l'id de l'écriture comptable
+	 * @param pId the id of the Ecriture Comptable
 	 * @return {@link EcritureComptable}
-	 * @throws NotFoundException : Si l'écriture comptable n'est pas trouvée
+	 * @throws NotFoundException : If the Ecriture Comptable is not found
 	 */
 	EcritureComptable getEcritureComptable(Integer pId) throws NotFoundException;
 
 	/**
-	 * Renvoie l'Écriture Comptable de référence {@code pRef}.
+	 * Return the Écriture Comptable with the reference {@code pRef}.
 	 *
-	 * @param pReference la référence de l'écriture comptable
+	 * @param pReference the reference of the Ecriture Comptable
 	 * @return {@link EcritureComptable}
-	 * @throws NotFoundException : Si l'écriture comptable n'est pas trouvée
+	 * @throws NotFoundException : If the Ecriture Comptable is not found
 	 */
 	EcritureComptable getEcritureComptableByRef(String pReference) throws NotFoundException;
 
 	/**
-	 * Charge la liste des lignes d'écriture de l'écriture comptable
+	 * Load the list of Ligne d'Ecriture of the Ecriture Comptable
 	 * {@code pEcritureComptable}
 	 *
 	 * @param pEcritureComptable -
@@ -65,23 +65,22 @@ public interface ComptabiliteDao {
 	void loadListLigneEcriture(EcritureComptable pEcritureComptable);
 
 	/**
-	 * Insert une nouvelle écriture comptable.
+	 * Insert a new Ecriture Comptable
 	 *
 	 * @param pEcritureComptable -
 	 */
 	void insertEcritureComptable(EcritureComptable pEcritureComptable);
 
 	/**
-	 * Met à jour l'écriture comptable.
+	 * Update the Ecriture Comptable.
 	 *
 	 * @param pEcritureComptable -
 	 */
 	void updateEcritureComptable(EcritureComptable pEcritureComptable);
 
-	/**
-	 * Supprime l'écriture comptable d'id {@code pId}.
+	/** The Ecriture Comptable with the id {@code pId}.
 	 *
-	 * @param pId l'id de l'écriture
+	 * @param pId the id of the Ecriture Comptable
 	 */
 	void deleteEcritureComptable(Integer pId);
 

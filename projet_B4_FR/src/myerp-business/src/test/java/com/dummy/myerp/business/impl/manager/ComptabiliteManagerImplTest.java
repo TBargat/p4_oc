@@ -15,11 +15,17 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 
+/**
+ * ComptabiliteManagerImpl Integration Test
+ */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/bootstrapContext.xml" })
 public class ComptabiliteManagerImplTest {
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
+    
+    /** Test of the method checkEcritureComptable() */
     
     @Test
     public void checkEcritureComptable() throws Exception {
@@ -38,7 +44,9 @@ public class ComptabiliteManagerImplTest {
                 new BigDecimal(123)));
         manager.checkEcritureComptable(vEcritureComptable);
     }
-
+    
+    /** Test of the method checkEcritureComptableUnit() */
+    
     @Test
     public void checkEcritureComptableUnit() throws Exception {
         EcritureComptable vEcritureComptable;
@@ -56,7 +64,9 @@ public class ComptabiliteManagerImplTest {
         		new BigDecimal(123)));
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-
+    
+    /** Test of the method checkEcritureComptableUnit() exceptions */
+    
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitViolation() throws Exception {
         EcritureComptable vEcritureComptable;
@@ -150,6 +160,8 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
     
+    /** Test of the method checkEcritureComptableContext() exceptions */ 
+    
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableContextRG6SameRef() throws Exception {
     	EcritureComptable vEcritureComptable;
@@ -172,6 +184,8 @@ public class ComptabiliteManagerImplTest {
    
         
     }
+    
+    /** Test of the method checkEcritureComptableContext() exceptions */ 
     
     @Test
     public void checkEcritureComptableContext() throws Exception {

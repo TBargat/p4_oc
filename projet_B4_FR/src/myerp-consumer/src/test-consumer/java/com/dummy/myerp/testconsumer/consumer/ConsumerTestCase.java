@@ -4,7 +4,7 @@ import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 
 
 /**
- * Classe mère des classes de test d'intégration de la couche Consumer
+ * Test Case for all the integration tests of the Consumer layer
  */
 public abstract class ConsumerTestCase {
 
@@ -16,9 +16,9 @@ public abstract class ConsumerTestCase {
     private static final DaoProxy DAO_PROXY = SpringRegistry.getDaoProxy();
 
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
-     * Constructeur.
+     * Constructor.
      */
     public ConsumerTestCase() {
     }

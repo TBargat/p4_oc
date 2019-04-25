@@ -6,20 +6,20 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
- * <p>Classe de gestion des Transactions de persistance</p>
+ * <p>Transaction manager for the data layer</p>
  */
 public class TransactionManager {
 
-    // ==================== Attributs Static ====================
-    /** PlatformTransactionManager pour le DataSource MyERP */
+    // ==================== Static Attributes ====================
+    /** PlatformTransactionManager for the DataSource MyERP */
     private static PlatformTransactionManager ptmMyERP;
 
 
-    // ==================== Constructeurs ====================
-    /** Instance unique de la classe (design pattern Singleton) */
+    // ==================== Constructors ====================
+    /** Singleton Design Pattern to have a single instance */
     private static final TransactionManager INSTANCE = new TransactionManager();
     /**
-     * Renvoie l'instance unique de la classe (design pattern Singleton).
+     * Return the proxy to access the Business Layer
      *
      * @return {@link TransactionManager}
      */
@@ -27,7 +27,7 @@ public class TransactionManager {
         return TransactionManager.INSTANCE;
     }
     /**
-     * Renvoie l'instance unique de la classe (design pattern Singleton).
+     * Return the proxy to access the Business Layer
      *
      * @param pPtmMyERP -
      * @return {@link TransactionManager}
@@ -37,18 +37,18 @@ public class TransactionManager {
         return TransactionManager.INSTANCE;
     }
     /**
-     * Constructeur.
+     * Constructor.
      */
     protected TransactionManager() {
         super();
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     /**
-     * Démarre une transaction sur le DataSource MyERP
+     * Start a transaction on the DataSource MyERP
      *
-     * @return TransactionStatus à passer aux méthodes :
+     * @return TransactionStatus to give to the methods :
      *      <ul>
      *          <li>{@link #commitMyERP(TransactionStatus)}</li>
      *              <li>{@link #rollbackMyERP(TransactionStatus)}</li>
@@ -63,9 +63,9 @@ public class TransactionManager {
     }
 
     /**
-     * Commit la transaction sur le DataSource MyERP
+     * Commit the transacton to the DataSource MyERP
      *
-     * @param pTStatus retrouné par la méthode {@link #beginTransactionMyERP()}
+     * @param pTStatus returned by the method {@link #beginTransactionMyERP()}
      */
     public void commitMyERP(TransactionStatus pTStatus) {
         if (pTStatus != null) {
@@ -74,9 +74,9 @@ public class TransactionManager {
     }
 
     /**
-     * Rollback la transaction sur le DataSource MyERP
+     * Rollback the transaction on the DataSource MyERP
      *
-     * @param pTStatus retrouné par la méthode {@link #beginTransactionMyERP()}
+     * @param pTStatus returned by the method {@link #beginTransactionMyERP()}
      */
     public void rollbackMyERP(TransactionStatus pTStatus) {
         if (pTStatus != null) {

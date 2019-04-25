@@ -2,27 +2,27 @@ package com.dummy.myerp.model.bean.comptabilite;
 
 
 /**
- * Bean représentant une séquence pour les références d'écriture comptable
+ * Sequence Ecriture Comptable Bean
  */
 public class SequenceEcritureComptable {
 
-    // ==================== Attributs ====================
-	/** Le Code Journal */
+    // ==================== Attributes ====================
+	/** The Code Journal */
 	private String codeJournal;
-	/** L'année */
+	/** The Year */
     private Integer annee;
-    /** La dernière valeur utilisée */
+    /** The Last Value Used */
     private int derniereValeur;
 
-    // ==================== Constructeurs ====================
+    // ==================== Constructors ====================
     /**
-     * Constructeur
+     * Constructor
      */
     public SequenceEcritureComptable() {
     }
 
     /**
-     * Constructeur
+     * Constructor
      *
      * @param pAnnee -
      * @param pDerniereValeur -
@@ -57,7 +57,7 @@ public class SequenceEcritureComptable {
     }
 
 
-    // ==================== Méthodes ====================
+    // ==================== Methods ====================
     @Override
     public String toString() {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());

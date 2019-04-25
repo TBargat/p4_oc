@@ -1,6 +1,5 @@
 package com.dummy.myerp.testconsumer.consumer;
 
-
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,78 +7,72 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * Registre des Beans Spring.
+ * Spring Beans registry.
  */
 public final class SpringRegistry {
 
-    /** Logger Log4j pour la classe */
-    private static final Logger LOGGER = LogManager.getLogger(SpringRegistry.class);
+	/** Logger Log4j for the class */
+	private static final Logger LOGGER = LogManager.getLogger(SpringRegistry.class);
 
+	/** Singleton Design Pattern to have a single instance */
+	private static final SpringRegistry INSTANCE = new SpringRegistry();
 
-    /** Instance unique de la classe (design pattern Singleton) */
-    private static final SpringRegistry INSTANCE = new SpringRegistry();
+	/** Application context files */
+	private static final String CONTEXT_APPLI_LOCATION = "classpath:/bootstrapContext.xml";
 
+	/** Spring Context */
+	private ApplicationContext contextAppli;
 
-    /** Nom des fichiers de contexte de l'application */
-    private static final String CONTEXT_APPLI_LOCATION
-            = "classpath:/bootstrapContext.xml";
+	// ==================== Spring Beans' ID ====================
 
-    /** Le context spring de l'application */
-    private ApplicationContext contextAppli;
+	/**
+	 * Constructor.
+	 */
+	private SpringRegistry() {
+		super();
+		SpringRegistry.LOGGER.debug("[DEBUT] SpringRegistry() - Initialisation du contexte Spring");
+		this.contextAppli = new ClassPathXmlApplicationContext(SpringRegistry.CONTEXT_APPLI_LOCATION);
+		SpringRegistry.LOGGER.debug("[FIN] SpringRegistry() - Initialisation du contexte Spring");
+	}
 
+	/**
+	 * Return the singleton
+	 *
+	 * @return SpringRegistry
+	 */
+	protected static final SpringRegistry getInstance() {
+		return SpringRegistry.INSTANCE;
+	}
 
-    // ==================== ID des Beans Spring ====================
+	/**
+	 * Initialize and load the context
+	 *
+	 * @return ApplicationContext
+	 */
+	public static final ApplicationContext init() {
+		// Call the static initialization and thus, the context loading
+		return getInstance().contextAppli;
+	}
 
+	/**
+	 * Bean gotten with Spring.
+	 *
+	 * @param pBeanId ID of the bean
+	 * @return Object
+	 */
+	protected static Object getBean(String pBeanId) {
+		SpringRegistry.LOGGER.debug("[DEBUT] SpringRegistry.getBean() - Bean ID : " + pBeanId);
+		Object vBean = SpringRegistry.getInstance().contextAppli.getBean(pBeanId);
+		SpringRegistry.LOGGER.debug("[FIN] SpringRegistry.getBean() - Bean ID : " + pBeanId);
+		return vBean;
+	}
 
-    /**
-     * Constructeur.
-     */
-    private SpringRegistry() {
-        super();
-        SpringRegistry.LOGGER.debug("[DEBUT] SpringRegistry() - Initialisation du contexte Spring");
-        this.contextAppli = new ClassPathXmlApplicationContext(SpringRegistry.CONTEXT_APPLI_LOCATION);
-        SpringRegistry.LOGGER.debug("[FIN] SpringRegistry() - Initialisation du contexte Spring");
-    }
-
-    /**
-     * Renvoie l'instance unique de la classe (design pattern Singleton).
-     *
-     * @return SpringRegistry
-     */
-    protected static final SpringRegistry getInstance() {
-        return SpringRegistry.INSTANCE;
-    }
-
-    /**
-     * Initialise et charge le contexte Spring
-     *
-     * @return ApplicationContext
-     */
-    public static final ApplicationContext init() {
-        // le fait d'appeler cette méthode, déclanche l'appel des initialisation static et donc le chargement du context
-        return getInstance().contextAppli;
-    }
-
-    /**
-     * Récupération d'un bean via Spring.
-     *
-     * @param pBeanId ID du bean
-     * @return Object
-     */
-    protected static Object getBean(String pBeanId) {
-        SpringRegistry.LOGGER.debug("[DEBUT] SpringRegistry.getBean() - Bean ID : " + pBeanId);
-        Object vBean = SpringRegistry.getInstance().contextAppli.getBean(pBeanId);
-        SpringRegistry.LOGGER.debug("[FIN] SpringRegistry.getBean() - Bean ID : " + pBeanId);
-        return vBean;
-    }
-
-
-    /**
-     * Renvoie l'instance de {@link DaoProxy} de l'application
-     *
-     * @return {@link DaoProxy}
-     */
-    public static DaoProxy getDaoProxy() {
-        return (DaoProxy) SpringRegistry.getBean("DaoProxy");
-    }
+	/**
+	 * Return the instance of the application's {@link DaoProxy}
+	 *
+	 * @return {@link DaoProxy}
+	 */
+	public static DaoProxy getDaoProxy() {
+		return (DaoProxy) SpringRegistry.getBean("DaoProxy");
+	}
 }

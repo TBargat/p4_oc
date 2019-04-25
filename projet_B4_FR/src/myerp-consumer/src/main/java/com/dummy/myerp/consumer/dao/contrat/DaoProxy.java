@@ -1,12 +1,12 @@
 package com.dummy.myerp.consumer.dao.contrat;
 
 /**
- * Interface du Proxy d'accès à la couche DAO
+ * Interface of the Proxy to access the Dao
  */
 public interface DaoProxy {
 
     /**
-     * Renvoie un {@link ComptabiliteDao}
+     * Return a {@link ComptabiliteDao}
      *
      * @return {@link ComptabiliteDao}
      */
