@@ -19,8 +19,8 @@ import com.dummy.myerp.technical.exception.FunctionalException;
  * ComptabiliteManagerImpl Integration Test
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/bootstrapContext.xml" })
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "classpath:/bootstrapContext.xml" })
 public class ComptabiliteManagerImplTest {
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
