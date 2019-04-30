@@ -89,6 +89,13 @@ public interface ComptabiliteManager {
      */
     void deleteEcritureComptable(Integer pId);
     
+    
+    /**
+     * Check the Context of the Ecriture Comptable picked.
+     *
+     */
+    void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException;
+    
     /**
      * Utility method to format the value of a reference
      */

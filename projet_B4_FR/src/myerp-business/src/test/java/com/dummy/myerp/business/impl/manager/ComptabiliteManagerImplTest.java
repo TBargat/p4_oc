@@ -25,25 +25,7 @@ public class ComptabiliteManagerImplTest {
 
     private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
     
-    /** Test of the method checkEcritureComptable() */
     
-    @Test
-    public void checkEcritureComptable() throws Exception {
-    	EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        
-    	vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new SimpleDateFormat("yyyy/MM/dd").parse("2019/04/01"));
-        vEcritureComptable.setLibelle("Libelle");
-        vEcritureComptable.setReference("AC-2019/00004");
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                null, new BigDecimal(123),
-                null));
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                null, null,
-                new BigDecimal(123)));
-        manager.checkEcritureComptable(vEcritureComptable);
-    }
     
     /** Test of the method checkEcritureComptableUnit() */
     
@@ -160,41 +142,9 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
     
-    /** Test of the method checkEcritureComptableContext() exceptions */ 
     
-    @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableContextRG6SameRef() throws Exception {
-    	EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        
-        
-        vEcritureComptable.setId(0);
-        vEcritureComptable.setReference("VE-2016/00002");
-        manager.checkEcritureComptableContext(vEcritureComptable);
-        
-    }
     
-    @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableContextRG6NoId() throws Exception {
-    	EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-        
-        vEcritureComptable.setReference("VE-2016/00002");
-        manager.checkEcritureComptableContext(vEcritureComptable);
-   
-        
-    }
     
-    /** Test of the method checkEcritureComptableContext() exceptions */ 
-    
-    @Test
-    public void checkEcritureComptableContext() throws Exception {
-    	EcritureComptable vEcritureComptable;
-        vEcritureComptable = new EcritureComptable();
-    	
-    	vEcritureComptable.setReference("BQ-2019/00001");
-        manager.checkEcritureComptableContext(vEcritureComptable);
-    }
     
     
     
