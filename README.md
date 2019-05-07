@@ -9,7 +9,8 @@ Projet 4 du parcours Expert Java EE.
     *   `docker` : répertoire relatifs aux conteneurs _docker_ utiles pour le projet
         *   `dev` : environnement de développement
     *   `src` : code source de l'application
-* `setDataBaseAndPush.command` : fichier pour lancer le container de la database puis lancer le push après un commit
+* `push.command` : fichier pour lancer le push après un commit   
+* `setDataBase.command` : fichier pour lancer le container de la database
 * `resetDataBase.command` : fichier pour remettre à 0 la database
     
 
@@ -31,7 +32,7 @@ Projet 4 du parcours Expert Java EE.
 *   Utilisation de **Jenkins CI** avec un **Job Maven** avec les plug-ins suivant :
 
     *   **Git** & **Github**
-        Permet de gérer l'intégration continue en lançant le build Jenkins à chaque push
+        Permet de gérer l'intégration continue en lançant le build Jenkins à chaque push via le **GitHub Hook**
         
     *   **JaCoco**
         Permet de récupérer les résultats de tests après le build afin de dresser un rapport avec les chiffres clés et graphiques du code coverage sur la page du build sur Jenkins
@@ -40,7 +41,7 @@ Projet 4 du parcours Expert Java EE.
         
         `<clean package org.jacoco:jacoco-maven-plugin:0.8.2:report -P test-consumer,test-business>`
         
-*   Avant chaque build Jenkins il faut double-clicker sur le fichier `setDataBaseAndPush.command` pour préparer la base de données et lancer Docker pour les tests d'intégration et lancer le push et donc le build Jenkins
+*   Avant chaque build Jenkins il faut double-cliquer sur le fichier `setDataBase.command` pour préparer la base de données et lancer Docker pour les tests d'intégration et lancer le push en double-cliquant sur le fichier `push.command` et donc le build Jenkins
 
 *   Après chaque build Jenkins il faut double-clicker sur le fichier `resetDataBase.command` afin de remettre à 0 la base de donnée et stopper Docker
 
