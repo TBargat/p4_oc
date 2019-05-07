@@ -9,6 +9,8 @@ Projet 4 du parcours Expert Java EE.
     *   `docker` : répertoire relatifs aux conteneurs _docker_ utiles pour le projet
         *   `dev` : environnement de développement
     *   `src` : code source de l'application
+* `setDataBaseAndPush.command` : fichier pour lancer le container de la database puis lancer le push après un commit
+* `resetDataBase.command` : fichier pour remettre à 0 la database
     
 
 ## 2 - Corrections apportées sur les 4 erreurs
@@ -37,9 +39,14 @@ Projet 4 du parcours Expert Java EE.
 *   Les tests sont déclenchés à chaque build Jenkins (déclenché par un push), via la commande Maven depuis le pom parent `projet_B4_FR/src/pom.xml` :
         
         `<clean package org.jacoco:jacoco-maven-plugin:0.8.2:report -P test-consumer,test-business>`
+        
+*   Avant chaque build Jenkins il faut double-clicker sur le fichier `setDataBaseAndPush.command` pour préparer la base de données et lancer Docker pour les tests d'intégration et lancer le push et donc le build Jenkins
+
+*   Après chaque build Jenkins il faut double-clicker sur le fichier `resetDataBase.command` afin de remettre à 0 la base de donnée et stopper Docker
+
 
 ### Les tests :
 
-*   Tests Unitaires : Ils sont déclenchés par la commande `<package>` de Maven
+*   Tests Unitaires : Ils sont déclenchés par la commande `<package>` de Maven lors du build Jenkins
 
-*   Test d'Intégration : Ils sont déchlenchés via l'appel des profils `test-consumer,test-business` avec la commande `<-P test-consumer,test-business>`
+*   Test d'Intégration : Ils sont déchlenchés via l'appel des profils `test-consumer,test-business` avec la commande `<-P test-consumer,test-business>` lors du build Jenkins

@@ -65,32 +65,20 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @throws TechnicalException 
      * @throws NotFoundException 
      */
-    // TODO à tester
     @Override
     public synchronized void addReference(EcritureComptable pEcritureComptable) throws NotFoundException, TechnicalException, FunctionalException {
-        // TODO à implémenter
-        // Bien se réferer à la JavaDoc de cette méthode !
-        /* Le principe :
-                1.  Remonter depuis la persitance la dernière valeur de la séquence du journal pour l'année de l'écriture
-                    (table sequence_ecriture_comptable)
-                2.  * S'il n'y a aucun enregistrement pour le journal pour l'année concernée :
-                        1. Utiliser le numéro 1.
-                    * Sinon :
-                        1. Utiliser la dernière valeur + 1
-                3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
-                4.  Enregistrer (insert/update) la valeur de la séquence en persitance
-                    (table sequence_ecriture_comptable)
-         */
-    	// Annee de la Date de pEcritureComptable
+    	// Year of the date of pEcritureComptable
     	Date dateEC = pEcritureComptable.getDate();
     	
     	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
     	String yearEC = simpleDateFormat.format(dateEC).toUpperCase();
     	
-    	//Code journal de pEcritureComptable
+    	//Code Journal of pEcritureComptable
     	String codeJournalEC = pEcritureComptable.getJournal().getCode();
     	
-    	// 1 - Remonte la derniere valeur
+    	// We take the last value of the Sequence on the table sequence_ecriture_comptable 
+    	// and add 1 to it unless there is no sequence yet for that year. Then the value is 1.
+    	
     	int newValue = 1;
     	try {
     		SequenceEcritureComptable lastSECused = getDaoProxy().getComptabiliteDao().getSequenceECByJournalCodeAndAnnee(codeJournalEC, Integer.valueOf(yearEC));
@@ -99,23 +87,18 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         		newValue = lastValue + 1;
         	} 
     	}
-    	// Catch de l'exception notfound pour eviter l'erreur
+    	// We catch the NotFound Exception in the second case, to avoid a mistake
     	catch (NotFoundException vException) { 
     		
     	}
-    	
-    	// 2
-    	
-    	
     
-    	// 3
+    	// We update the reference to meet the requirements of "RG 5"
     	String reference = codeJournalEC + "-" + yearEC + "/" + leftPad(newValue, 5)  ;
     	
     	pEcritureComptable.setReference(reference);
     	this.updateEcritureComptable(pEcritureComptable);
     	
-    	// 4
-    	
+    	// We save via an update or insert the sequence in the table sequence_ecriture_comptable
     	SequenceEcritureComptable vSequenceEC = new SequenceEcritureComptable();
         vSequenceEC.setCodeJournal(pEcritureComptable.getJournal().getCode());
         vSequenceEC.setAnnee(Integer.valueOf(yearEC));
@@ -135,15 +118,13 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
 
     /**
-     * Vérifie que l'Ecriture comptable respecte les règles de gestion unitaires,
-     * c'est à dire indépendemment du contexte (unicité de la référence, exercie comptable non cloturé...)
+     * Check that the EC complies with the accounting rules
      *
      * @param pEcritureComptable -
-     * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
+     * @throws FunctionalException If the EC doesn't meet all the requirements
      */
-    // TODO tests à compléter
     public void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
-        // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
+        // ===== We check the unit constraints on the attributes of the EC
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
         if (!vViolations.isEmpty()) {
             throw new FunctionalException("L'écriture comptable ne respecte pas les règles de gestion.",
@@ -152,12 +133,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                                               vViolations));
         }
 
-        // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit être équilibrée
+        // ===== RG_Compta_2 : An EC is valid if, and only if, it is balanced
         if (!pEcritureComptable.isEquilibree()) {
             throw new FunctionalException("L'écriture comptable n'est pas équilibrée.");
         }
 
-        // ===== RG_Compta_3 : une écriture comptable doit avoir au moins 2 lignes d'écriture (1 au débit, 1 au crédit)
+        // ===== RG_Compta_3 : An EC must have at least two Lignes d'Ecriture (1 for debit, 1 for credit)
         int vNbrCredit = 0;
         int vNbrDebit = 0;
         for (LigneEcritureComptable vLigneEcritureComptable : pEcritureComptable.getListLigneEcriture()) {
@@ -170,8 +151,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 vNbrDebit++;
             }
         }
-        // On test le nombre de lignes car si l'écriture à une seule ligne
-        //      avec un montant au débit et un montant au crédit ce n'est pas valable
+        // We check the amount of lines
         if (pEcritureComptable.getListLigneEcriture().size() < 2
             || vNbrCredit < 1
             || vNbrDebit < 1) {
@@ -179,8 +159,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
         }
 
-        // TODO ===== RG_Compta_5 : Format et contenu de la référence
-        // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        // We check that the content of the reference matches the attributes of the EC
         String vYearDate = new SimpleDateFormat("YYYY").format(pEcritureComptable.getDate());
         if (!pEcritureComptable.getReference().substring(3, 7).equals(vYearDate))
             throw new FunctionalException(
@@ -199,27 +178,28 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
     public void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException {
-        // ===== RG_Compta_6 : La référence d'une écriture comptable doit être unique
+        // ===== RG_Compta_6 : The reference must be unique
         if (StringUtils.isNoneEmpty(pEcritureComptable.getReference())) {
             try {
-                // Recherche d'une écriture ayant la même référence
+                // We look for an EC with the same reference
                 EcritureComptable vECRef = getDaoProxy().getComptabiliteDao().getEcritureComptableByRef(
                     pEcritureComptable.getReference());
 
-                // Si l'écriture à vérifier est une nouvelle écriture (id == null),
-                // ou si elle ne correspond pas à l'écriture trouvée (id != idECRef),
-                // c'est qu'il y a déjà une autre écriture avec la même référence
+                // If it is a new EC (id == null),
+                // or if it doesn't match the found EC (id != idECRef),
+                // it means that there is already an EC with that reference
                 if (pEcritureComptable.getId() == null
                     || !pEcritureComptable.getId().equals(vECRef.getId())) {
                     throw new FunctionalException("Une autre écriture comptable existe déjà avec la même référence.");
                 }
             } catch (NotFoundException vEx) {
-                // Dans ce cas, c'est bon, ça veut dire qu'on n'a aucune autre écriture avec la même référence.
+                // In that case, there is no other EC with this reference. So it is valid.
             }
         }
     }
 
     /**
+     * Method to insert an EC in the DB
      * {@inheritDoc}
      */
     @Override
@@ -236,6 +216,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     }
 
     /**
+     *  Method to update an EC in the DB
      * {@inheritDoc}
      */
     @Override
@@ -251,6 +232,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     }
 
     /**
+     * Method to delete an EC
      * {@inheritDoc}
      */
     @Override
@@ -266,13 +248,17 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     }
 
    
-    
+    /**
+     * Method to give the good format to the reference number
+     */
 	@Override
 	public String leftPad(int n, int padding) {
 		return String.format("%0" + padding + "d", n);
 	}
 
-
+	/**
+     * Method to retrieve a Sequence Ecriture Comptable with Journal Code and Annee paramaters
+     */
 	@Override
 	public SequenceEcritureComptable getSequenceECByJournalCodeAndAnnee(String pJournalCode, Integer pAnnee) throws NotFoundException, TechnicalException, FunctionalException {
 		SequenceEcritureComptable sequenceToGet;
